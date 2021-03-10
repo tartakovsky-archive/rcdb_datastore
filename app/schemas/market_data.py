@@ -2,6 +2,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, constr, condecimal
 
+from .mixins import CustomJSONEncoderMixin
+
 decimal_type = condecimal(ge=0, max_digits=22, decimal_places=10)
 
 
@@ -15,7 +17,7 @@ class MarketData(BaseModel):
     close: decimal_type
     volume: decimal_type
 
-    class Config:
+    class Config(CustomJSONEncoderMixin):
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),

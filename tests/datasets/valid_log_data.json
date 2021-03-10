@@ -1,0 +1,116 @@
+[
+    [
+        "ohlcv",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:56.393693",
+                "exchange": "binance",
+                "symbol": "btc/usdt",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:57.393693",
+                "exchange": "forex",
+                "symbol": "btc/usdt",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:56.393693",
+                "exchange": "binance",
+                "symbol": "ltc/usdt",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            }
+        ]
+    ],
+    [
+        "kalman",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:56.390257",
+                "price_forex": 25.5,
+                "price_crypto": 25.3,
+                "ts_data": 1245215555,
+                "s1_x": 0.35,
+                "s1_P": 0.45,
+                "s2_x": 0.35,
+                "s2_P": 0.55,
+                "s3_x": 0.26,
+                "s3_P": 0.35
+            },
+            {
+                "timestamp": "2021-03-10T12:15:57.390257",
+                "price_forex": 25.5,
+                "price_crypto": 25.3,
+                "ts_data": 1245215555,
+                "s1_x": 0.35,
+                "s1_P": 0.145,
+                "s2_x": 0.35,
+                "s2_P": 0.55,
+                "s3_x": 0.26,
+                "s3_P": 0.35
+            },
+            {
+                "timestamp": "2021-03-10T12:15:56.390257",
+                "price_forex": 235.5,
+                "price_crypto": 25.3,
+                "ts_data": 1245215555,
+                "s1_x": 0.35,
+                "s1_P": 0.45,
+                "s2_x": 0.35,
+                "s2_P": 0.55,
+                "s3_x": 0.26,
+                "s3_P": 0.35
+            }
+        ]
+    ],
+    [
+        "bot_performance",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:56.387397",
+                "balance_base": 25.5,
+                "balance_quote": 25.3,
+                "bid": 1245.5,
+                "ask": 1245.3,
+                "price_fair": 1245.45,
+                "price_forex": 1245.35,
+                "balance_base_borrowed": 100000.5,
+                "balance_quote_borrowed": 14555.5
+            },
+            {
+                "timestamp": "2021-03-10T12:15:56.387397",
+                "balance_base": 25.5,
+                "balance_quote": 256.3,
+                "bid": 1245.5,
+                "ask": 1245.3,
+                "price_fair": 1245.45,
+                "price_forex": 1245.35,
+                "balance_base_borrowed": 100000.5,
+                "balance_quote_borrowed": 14555.5
+            },
+            {
+                "timestamp": "2021-03-10T12:15:56.387397",
+                "balance_base": 25.5,
+                "balance_quote": 25.3,
+                "bid": 1245.5,
+                "ask": 1245.3,
+                "price_fair": 12245.45,
+                "price_forex": 1245.35,
+                "balance_base_borrowed": 100000.5,
+                "balance_quote_borrowed": 14555.5
+            }
+        ]
+    ]
+]
