@@ -1,0 +1,55 @@
+version: '3.7'
+
+x-env-vars: &env-vars
+  POSTGRES_HOST: ${POSTGRES_HOST:-db}
+  POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+  POSTGRES_USER: ${POSTGRES_USER:-db_user}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+  POSTGRES_DB: ${POSTGRES_DB:-db}
+
+services:
+  app:
+    image: ${DOCKER_REGISTRY:-local}/app:latest
+    build:
+      context: ./
+      dockerfile: ./docker/app
+    environment:
+      <<: *env-vars
+    command: gunicorn -k uvicorn.workers.UvicornWorker --workers=4 --threads=10 --max-requests=50 --timeout=30 --enable-stdio-inheritance --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "2"
+
+  nginx:
+    image: ${DOCKER_REGISTRY:-local}/nginx:latest
+    build:
+      context: ./docker/nginx
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "512m"
+        max-file: "2"
+    ports:
+      - 80:80
+
+  db:
+    image: timescale/timescaledb:1.7.2-pg12
+    environment:
+      <<: *env-vars
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: always
+    shm_size: 256mb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "2"
+volumes:
+  db_data:
