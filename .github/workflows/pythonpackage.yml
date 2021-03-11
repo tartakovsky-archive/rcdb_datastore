@@ -40,7 +40,7 @@ jobs:
       run: flake8
 
     - name: Test with pytest
-      run: pytest
+      run: alembic upgrade heads && pytest
       env:
         POSTGRES_HOST: localhost
         POSTGRES_USER: postgres
