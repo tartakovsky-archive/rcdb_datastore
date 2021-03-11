@@ -15,7 +15,9 @@ services:
       dockerfile: ./docker/app/Dockerfile
     environment:
       <<: *env-vars
-    command: gunicorn -k uvicorn.workers.UvicornWorker --workers=4 --threads=10 --max-requests=50 --timeout=30 --enable-stdio-inheritance --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
+      SENTRY_DSN: ${SENTRY_DSN}
+      ENV: ${ENV}
+    command: gunicorn -k uvicorn.workers.UvicornWorker --workers=4 --threads=10 --max-requests=50 --timeout=30 --enable-stdio-inheritance --access-logfile - --access-logformat "[%(t)s] [ACCESS] %(h)s - %(r)s %(s)s %(T)s" --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
     restart: always
     logging:
       driver: "json-file"

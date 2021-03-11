@@ -2,13 +2,16 @@
 
 ## Example `.env`
 ```
+ENV=prod
 POSTGRES_HOST=host
 POSTGRES_PORT=5432
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=db
 
-DOCKER_REGISTRY=807440325307.dkr.ecr.eu-central-1.amazonaws.com
+DOCKER_REGISTRY=807440325307.dkr.ecr.ap-northeast-1.amazonaws.com
+SENTRY_DSN=https://some.ingest.sentry.io/some
+AWS_DEFAULT_REGION=ap-northeast-1
 ```
 
 ## Start app

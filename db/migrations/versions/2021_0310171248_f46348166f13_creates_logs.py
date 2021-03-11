@@ -74,7 +74,10 @@ def upgrade():
         "SELECT create_hypertable('kalman_log_entries', 'timestamp', chunk_time_interval => 86400);"
     )
     session.execute(
-        "SELECT create_hypertable('markets_data', 'timestamp', partitioning_column => 'symbol', number_partitions => 10, chunk_time_interval => 86400);"
+        """
+        SELECT create_hypertable('markets_data', 'timestamp', partitioning_column => 'symbol', number_partitions => 10, chunk_time_interval => 86400);
+        SELECT add_dimension('markets_data', 'exchange', number_partitions => 10, if_not_exists => true);
+        """
     )
     # ### end Alembic commands ###
 

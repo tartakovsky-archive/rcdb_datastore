@@ -1,10 +1,13 @@
+import logging
 from typing import Union, List
+
 from fastapi import APIRouter, HTTPException
 
 from . import schemas, enums, models
 from db.sessions import session
 
 api = APIRouter()
+logger = logging.getLogger(__name__)
 
 TYPE_MODEL_MAP = {
     enums.LogType.ohlcv: {'model': models.MarketData, 'schema': schemas.MarketData},

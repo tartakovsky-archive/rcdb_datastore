@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 source .env
-aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY && echo 'Successful login to ECR'
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY && echo 'Successful login to ECR'
 
 docker-compose pull app nginx && echo "Successful pulled images"
 docker-compose rm -sf app nginx
