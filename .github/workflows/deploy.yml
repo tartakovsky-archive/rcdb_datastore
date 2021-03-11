@@ -49,5 +49,6 @@ jobs:
         script: |
           cd /home/ubuntu/datastore && \
           echo "dir changed" && \
+          su -- ubuntu && \
           chmod +x deploy.sh && \
           ./deploy.sh --migrate
