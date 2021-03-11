@@ -8,7 +8,6 @@ from conf.settings import POSTGRES_HOST, POSTGRES_DB, POSTGRES_USER, POSTGRES_PA
 url = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}'
 engine = create_engine(
     url,
-    convert_unicode=True,
     pool_size=10,
     max_overflow=10,
     pool_pre_ping=True,
