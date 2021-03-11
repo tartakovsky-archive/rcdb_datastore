@@ -15,7 +15,8 @@ logging.basicConfig(
     format='[%(asctime)s] %(name)s [%(levelname)s] %(message)s',
     level=logging.DEBUG
 )
-LOGGING_CONFIG["formatters"]["access"]["fmt"] = '[%(asctime)s] %(name)s [ACCESS] %(client_addr)s - "%(request_line)s" %(status_code)s'
+ACCESS_LOG_FMT = '[%(asctime)s] %(name)s [ACCESS] %(client_addr)s - "%(request_line)s" %(status_code)s'
+LOGGING_CONFIG["formatters"]["access"]["fmt"] = ACCESS_LOG_FMT
 
 logging.info(f'Starting app with PROD:{PROD}')
 
