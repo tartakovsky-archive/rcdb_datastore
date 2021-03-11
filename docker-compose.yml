@@ -12,7 +12,7 @@ services:
     image: ${DOCKER_REGISTRY:-local}/app:latest
     build:
       context: ./
-      dockerfile: ./docker/app
+      dockerfile: ./docker/app/Dockerfile
     environment:
       <<: *env-vars
     command: gunicorn -k uvicorn.workers.UvicornWorker --workers=4 --threads=10 --max-requests=50 --timeout=30 --enable-stdio-inheritance --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
@@ -35,6 +35,8 @@ services:
         max-file: "2"
     ports:
       - 80:80
+    depends_on:
+      - app
 
   db:
     image: timescale/timescaledb:1.7.2-pg12
@@ -51,5 +53,6 @@ services:
       options:
         max-size: "1024m"
         max-file: "2"
+
 volumes:
   db_data:

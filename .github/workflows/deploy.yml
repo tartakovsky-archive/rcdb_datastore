@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ hashFiles('requirements.txt') }}
+
+    - name: Install dependencies
+      run: |
+        pip3 install awscli docker-compose
+
+    - name: Build & push images
+      run: |
+        docker-compose build app nginx
+        aws configure set aws_access_key_id "${AWS_ACCESS_KEY_ID}"
+        aws configure set aws_secret_access_key "${AWS_SECRET_ACCESS_KEY}"
+        aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+        docker-compose push app nginx
+
+    - name: Copy files via SCP
+      uses: appleboy/scp-action@master
+      env:
+        KEY: ${{ secrets.SSH_KEY }}
+        HOST: ${{ secrets.SSH_HOST }}
+        USERNAME: ${{ secrets.SSH_USER }}
+      with:
+        source: "*"
+        target: "/home/ubuntu/datastore"
+
+    - name: Up app
+      uses: appleboy/ssh-action@master
+      env:
+        KEY: ${{ secrets.SSH_KEY }}
+        HOST: ${{ secrets.SSH_HOST }}
+        USERNAME: ${{ secrets.SSH_USER }}
+      with:
+        script: |
+          cd /home/ubuntu/datastore && \
+          echo "dir changed" && \
+          sudo ./deploy.sh --migrate && \
