@@ -1,4 +1,5 @@
 # datastore
+[![Deploy](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml/badge.svg)](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml)
 
 ## Example `.env`
 ```
