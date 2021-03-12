@@ -1,12 +1,13 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 from .mixins import CustomJSONEncoderMixin
 
 
 class BotPerformanceLogEntry(BaseModel):
     timestamp: datetime
+    name: constr(min_length=1, max_length=16)
     balance_base: float
     balance_quote: float
     bid: float
@@ -20,6 +21,7 @@ class BotPerformanceLogEntry(BaseModel):
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),
+                'name': 'bot1',
                 'balance_base': 25.5,
                 'balance_quote': 25.3,
                 'bid': 1245.5,

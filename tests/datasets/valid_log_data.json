@@ -3,9 +3,10 @@
         "ohlcv",
         [
             {
-                "timestamp": "2021-03-10T12:15:56.393693",
+                "timestamp": "2021-03-10T12:15:55.393693",
                 "exchange": "binance",
                 "symbol": "btc/usdt",
+                "instrument": "futures",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -16,6 +17,7 @@
                 "timestamp": "2021-03-10T12:15:57.393693",
                 "exchange": "forex",
                 "symbol": "btc/usdt",
+                "instrument": "spot",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -26,6 +28,7 @@
                 "timestamp": "2021-03-10T12:15:56.393693",
                 "exchange": "binance",
                 "symbol": "ltc/usdt",
+                "instrument": "futures",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -39,6 +42,7 @@
         [
             {
                 "timestamp": "2021-03-10T12:15:56.390257",
+                "name": "name1",
                 "price_forex": 25.5,
                 "price_crypto": 25.3,
                 "ts_data": 1245215555,
@@ -51,6 +55,7 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:57.390257",
+                "name": "name2",
                 "price_forex": 25.5,
                 "price_crypto": 25.3,
                 "ts_data": 1245215555,
@@ -62,7 +67,8 @@
                 "s3_P": 0.35
             },
             {
-                "timestamp": "2021-03-10T12:15:56.390257",
+                "timestamp": "2021-03-10T12:15:55.390257",
+                "name": "name1",
                 "price_forex": 235.5,
                 "price_crypto": 25.3,
                 "ts_data": 1245215555,
@@ -80,6 +86,7 @@
         [
             {
                 "timestamp": "2021-03-10T12:15:56.387397",
+                "name": "name1",
                 "balance_base": 25.5,
                 "balance_quote": 25.3,
                 "bid": 1245.5,
@@ -90,7 +97,8 @@
                 "balance_quote_borrowed": 14555.5
             },
             {
-                "timestamp": "2021-03-10T12:15:56.387397",
+                "timestamp": "2021-03-10T12:15:57.387397",
+                "name": "name1",
                 "balance_base": 25.5,
                 "balance_quote": 256.3,
                 "bid": 1245.5,
@@ -101,7 +109,8 @@
                 "balance_quote_borrowed": 14555.5
             },
             {
-                "timestamp": "2021-03-10T12:15:56.387397",
+                "timestamp": "2021-03-10T12:15:58.387397",
+                "name": "name2",
                 "balance_base": 25.5,
                 "balance_quote": 25.3,
                 "bid": 1245.5,

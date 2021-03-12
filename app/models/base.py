@@ -11,9 +11,10 @@ class Model(declarative_base()):
 
     def to_dict(self, exclude: Optional[Iterable] = None):
         if not exclude:
-            exclude = {}
+            exclude = set()
+        else:
+            exclude = set(exclude)
 
-        exclude = set(exclude)
         return {
             column.name: getattr(self, column.name)
             for column in self.__table__.columns

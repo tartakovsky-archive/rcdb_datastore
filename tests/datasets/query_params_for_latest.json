@@ -1,0 +1,44 @@
+[
+    [
+        {
+            "params": "?type=ohlcv",
+            "index": 1
+        },
+        {
+            "params": "?type=ohlcv&exchange=binance",
+            "index": 2
+        },
+        {
+            "params": "?type=ohlcv&symbol=btc/usdt",
+            "index": 1
+        },
+        {
+            "params": "?type=ohlcv&exchange=binance&symbol=ltc/usdt",
+            "index": 2
+        },
+        {
+            "params": "?type=ohlcv&instrument=futures",
+            "index": 2
+        }
+    ],
+    [
+        {
+            "params": "?type=kalman",
+            "index": 1
+        },
+        {
+            "params": "?type=kalman&name=name1",
+            "index": 0
+        }
+    ],
+    [
+        {
+            "params": "?type=bot_performance",
+            "index": 2
+        },
+        {
+            "params": "?type=bot_performance&name=name1",
+            "index": 1
+        }
+    ]
+]

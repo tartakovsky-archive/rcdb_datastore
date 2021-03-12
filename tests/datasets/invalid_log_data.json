@@ -88,6 +88,7 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:56.387397",
+                "name": "name1",
                 "balance_base": 25.5,
                 "balance_quote": 256.3,
                 "bid": 1245.5,
@@ -99,6 +100,7 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:56.387397",
+                "name": "name1",
                 "balance_base": 25.5,
                 "balance_quote": 25.3,
                 "bid": 1245.5,
@@ -107,6 +109,22 @@
                 "price_forex": 1245.35,
                 "balance_base_borrowed": 100000.5,
                 "balance_quote_borrowed": 14555.5
+            }
+        ]
+    ],
+    [
+        "ohlcv",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:56.393693",
+                "exchange": "binance",
+                "symbol": "btc/usdt",
+                "instrument": "wrong instrument",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
             }
         ]
     ]

@@ -1,7 +1,8 @@
 import datetime
-from sqlalchemy import Column, DateTime, Numeric, String, text
+from sqlalchemy import Column, DateTime, Numeric, String, Enum, text
 
 from .base import Model
+from app.enums import Instrument
 
 
 class MarketData(Model):
@@ -15,6 +16,7 @@ class MarketData(Model):
     )
     exchange = Column(String(16), primary_key=True)
     symbol = Column(String(16), primary_key=True)
+    instrument = Column(Enum(Instrument, native_enum=False), index=True, primary_key=True)
     open = Column(Numeric(22, 10, asdecimal=False), nullable=False)
     high = Column(Numeric(22, 10, asdecimal=False), nullable=False)
     low = Column(Numeric(22, 10, asdecimal=False), nullable=False)

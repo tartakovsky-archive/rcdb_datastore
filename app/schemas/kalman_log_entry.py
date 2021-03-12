@@ -1,12 +1,13 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 from .mixins import CustomJSONEncoderMixin
 
 
 class KalmanLogEntry(BaseModel):
     timestamp: datetime
+    name: constr(min_length=1, max_length=16)
     price_forex: float
     price_crypto: float
     ts_data: int
@@ -21,6 +22,7 @@ class KalmanLogEntry(BaseModel):
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),
+                'name': 'some name',
                 'price_forex': 25.5,
                 'price_crypto': 25.3,
                 'ts_data': 124521515555,

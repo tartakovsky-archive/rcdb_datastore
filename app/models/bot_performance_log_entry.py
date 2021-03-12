@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, DateTime, BigInteger, Float, text, Sequence
+from sqlalchemy import Column, DateTime, BigInteger, Float, Sequence, String, text
 
 from .base import Model
 
@@ -15,12 +15,14 @@ class BotPerformanceLogEntry(Model):
         DateTime,
         default=datetime.datetime.utcnow,
         server_default=text('now()'),
+        index=True
     )
-    balance_base = Column(Float)
-    balance_quote = Column(Float)
-    bid = Column(Float)
-    ask = Column(Float)
-    price_fair = Column(Float)
-    price_forex = Column(Float)
-    balance_base_borrowed = Column(Float)
-    balance_quote_borrowed = Column(Float)
+    name = Column(String(16), index=True, nullable=False)
+    balance_base = Column(Float, nullable=False)
+    balance_quote = Column(Float, nullable=False)
+    bid = Column(Float, nullable=False)
+    ask = Column(Float, nullable=False)
+    price_fair = Column(Float, nullable=False)
+    price_forex = Column(Float, nullable=False)
+    balance_base_borrowed = Column(Float, nullable=False)
+    balance_quote_borrowed = Column(Float, nullable=False)
