@@ -12,9 +12,10 @@ logger = logging.getLogger(__name__)
 TYPE_MODEL_MAP = {
     enums.LogType.ohlcv: {'model': models.MarketData, 'schema': schemas.MarketData},
     enums.LogType.kalman: {'model': models.KalmanLogEntry, 'schema': schemas.KalmanLogEntry},
-    enums.LogType.bot_performance: {'model': models.BotPerformanceLogEntry, 'schema': schemas.BotPerformanceLogEntry}
+    enums.LogType.bot_performance: {'model': models.BotPerformanceLogEntry, 'schema': schemas.BotPerformanceLogEntry},
+    enums.LogType.price_index: {'model': models.PriceIndex, 'schema': schemas.PriceIndex}
 }
-LogEntity = Union[schemas.BotPerformanceLogEntry, schemas.KalmanLogEntry, schemas.MarketData]
+LogEntity = Union[schemas.BotPerformanceLogEntry, schemas.KalmanLogEntry, schemas.MarketData, schemas.PriceIndex]
 
 
 @api.post('/log/', response_model=schemas.OkResponse)
@@ -57,6 +58,9 @@ def latest(
                 if _locals.get(column_name) is not None
             ]
         )
+    if type == enums.LogType.price_index and symbol:
+        query = query.filter(model_class.symbol == symbol)
+
     elif name:
         query = query.filter(model_class.name == name)
 

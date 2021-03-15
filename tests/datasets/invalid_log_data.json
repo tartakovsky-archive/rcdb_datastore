@@ -127,5 +127,15 @@
                 "volume": 1231254953.05
             }
         ]
+    ],
+    [
+        "price_index",
+        [
+            {
+                "timestamp": 1615802044.3,
+                "symbol": "wrong symbol",
+                "price": 1.17117149
+            }
+        ]
     ]
 ]

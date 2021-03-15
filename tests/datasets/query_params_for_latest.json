@@ -40,5 +40,15 @@
             "params": "?type=bot_performance&name=name1",
             "index": 1
         }
+    ],
+    [
+        {
+            "params": "?type=price_index",
+            "index": 3
+        },
+        {
+            "params": "?type=price_index&symbol=eur/busd",
+            "index": 2
+        }
     ]
 ]

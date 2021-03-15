@@ -121,5 +121,31 @@
                 "balance_quote_borrowed": 14555.5
             }
         ]
+    ],
+    [
+        "price_index",
+        [
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "symbol": "eur/usdt",
+                "price": 1.19117149
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04.100000",
+                "symbol": "eur/busd",
+                "price": 1.13117149
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04.200000",
+                "symbol": "eur/busd",
+                "price": 1.19117149
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04.300000",
+                "symbol": "eur/usdt",
+                "price": 1.17117149
+            }
+        ]
+
     ]
 ]

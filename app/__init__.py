@@ -1,6 +1,5 @@
 import logging
 
-
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
