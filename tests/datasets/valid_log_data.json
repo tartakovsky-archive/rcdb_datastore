@@ -4,9 +4,9 @@
         [
             {
                 "timestamp": "2021-03-10T12:15:55.393693",
-                "exchange": "binance",
-                "symbol": "btc/usdt",
-                "instrument": "futures",
+                "exchange": "BINANCE",
+                "symbol": "BTC/USDT",
+                "instrument": "FUTURES",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -15,9 +15,9 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:57.393693",
-                "exchange": "forex",
-                "symbol": "btc/usdt",
-                "instrument": "spot",
+                "exchange": "FOREX",
+                "symbol": "BTC/USDT",
+                "instrument": "SPOT",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -26,9 +26,9 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:56.393693",
-                "exchange": "binance",
-                "symbol": "ltc/usdt",
-                "instrument": "futures",
+                "exchange": "BINANCE",
+                "symbol": "LTC/USDT",
+                "instrument": "FUTURES",
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
@@ -127,22 +127,22 @@
         [
             {
                 "timestamp": "2021-03-15T09:54:04",
-                "symbol": "eur/usdt",
+                "symbol": "EUR/USDT",
                 "price": 1.19117149
             },
             {
                 "timestamp": "2021-03-15T09:54:04.100000",
-                "symbol": "eur/busd",
+                "symbol": "EUR/BUSD",
                 "price": 1.13117149
             },
             {
                 "timestamp": "2021-03-15T09:54:04.200000",
-                "symbol": "eur/busd",
+                "symbol": "EUR/BUSD",
                 "price": 1.19117149
             },
             {
                 "timestamp": "2021-03-15T09:54:04.300000",
-                "symbol": "eur/usdt",
+                "symbol": "EUR/USDT",
                 "price": 1.17117149
             }
         ]

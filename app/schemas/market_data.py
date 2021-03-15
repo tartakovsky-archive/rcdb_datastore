@@ -1,18 +1,18 @@
 from datetime import datetime
 
-from pydantic import BaseModel, constr, condecimal
+from pydantic import BaseModel, condecimal
 
+from .base import exchange_type, symbol_type
 from .mixins import CustomJSONEncoderMixin
 from app.enums import Instrument
 
 decimal_type = condecimal(ge=0, max_digits=22, decimal_places=10)
-symbol_type = constr(to_lower=True, regex=r'\w+/\w+', max_length=16)
 
 
 class MarketData(BaseModel):
     timestamp: datetime
-    exchange: constr(to_lower=True, min_length=1, max_length=16)
-    symbol: symbol_type  # noqa
+    exchange: exchange_type
+    symbol: symbol_type
     instrument: Instrument
     open: decimal_type
     high: decimal_type
@@ -24,8 +24,8 @@ class MarketData(BaseModel):
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),
-                'exchange': 'binance',
-                'symbol': 'btc/usdt',
+                'exchange': 'BINANCE',
+                'symbol': 'BTC/USDT',
                 'instrument': 'spot',
                 'open': 54953.05,
                 'high': 54963.05,

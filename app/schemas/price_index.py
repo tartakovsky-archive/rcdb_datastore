@@ -2,13 +2,13 @@ from datetime import datetime
 
 from pydantic import BaseModel, condecimal
 
+from .base import symbol_type
 from .mixins import CustomJSONEncoderMixin
-from .market_data import symbol_type
 
 
 class PriceIndex(BaseModel):
     timestamp: datetime
-    symbol: symbol_type  # noqa
+    symbol: symbol_type
     price: condecimal(ge=0, max_digits=10, decimal_places=8)
 
     class Config(CustomJSONEncoderMixin):

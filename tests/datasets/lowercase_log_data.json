@@ -1,0 +1,46 @@
+[
+    [
+        "ohlcv",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "exchange": "binance",
+                "symbol": "btc/usdt",
+                "instrument": "futures",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "exchange": "BINANCE",
+                "symbol": "BTC/USDT",
+                "instrument": "FUTURES",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            }
+
+        ]
+    ],
+    [
+        "price_index",
+        [
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "symbol": "eur/usdt",
+                "price": 1.19117149
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "symbol": "EUR/USDT",
+                "price": 1.19117149
+            }
+        ]
+
+    ]
+]

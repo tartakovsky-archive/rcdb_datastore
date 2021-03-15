@@ -5,19 +5,19 @@
             "index": 1
         },
         {
-            "params": "?type=ohlcv&exchange=binance",
+            "params": "?type=ohlcv&exchange=BINANCE",
             "index": 2
         },
         {
-            "params": "?type=ohlcv&symbol=btc/usdt",
+            "params": "?type=ohlcv&symbol=BTC/USDT",
             "index": 1
         },
         {
-            "params": "?type=ohlcv&exchange=binance&symbol=ltc/usdt",
+            "params": "?type=ohlcv&exchange=BINANCE&symbol=LTC/USDT",
             "index": 2
         },
         {
-            "params": "?type=ohlcv&instrument=futures",
+            "params": "?type=ohlcv&instrument=FUTURES",
             "index": 2
         }
     ],
@@ -47,7 +47,7 @@
             "index": 3
         },
         {
-            "params": "?type=price_index&symbol=eur/busd",
+            "params": "?type=price_index&symbol=EUR/BUSD",
             "index": 2
         }
     ]

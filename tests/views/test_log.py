@@ -80,3 +80,15 @@ def test_latest(latest_valid_data):
     query_params, test_response_data = latest_valid_data
     response = client.get(f'/latest/{query_params}')
     assert response.json() == test_response_data
+
+
+@pytest.mark.parametrize(
+    'payload_type, items',
+    orjson.loads(resources.read_text('tests.datasets', 'lowercase_log_data.json'))
+)
+def test_lowercase_data_log(payload_type, items, drop_tables):
+    response = client.post(f'/log/?type={payload_type}', json=[items[0]])
+    assert response.status_code == 200, response.text
+
+    response = client.get(f'/latest/?type={payload_type}')
+    assert response.json() == items[1]
