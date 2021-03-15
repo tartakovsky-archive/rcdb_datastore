@@ -32,7 +32,8 @@ def test_log(payload_type, items, drop_tables):
 
 @pytest.mark.parametrize('payload_type, items', VALID_ITEMS)
 def test_log_ts(payload_type, items, drop_tables):
-    items = [{**item, 'timestamp': time.time()} for item in items]
+    now = time.time()
+    items = [{**item, 'timestamp': now + i} for i, item in enumerate(items)]
     response = client.post(f'/log/?type={payload_type}', json=items)
     assert response.status_code == 200, response.text
 
