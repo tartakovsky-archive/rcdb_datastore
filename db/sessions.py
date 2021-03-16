@@ -2,7 +2,7 @@ from typing import Union
 
 from sqlalchemy.orm import Session, scoped_session
 
-from .connection import maker
+from .connection import SessionLocal
 
 
-session: Union[Session, scoped_session] = scoped_session(maker)
+session: Union[Session, scoped_session] = scoped_session(SessionLocal)
