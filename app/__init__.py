@@ -1,14 +1,14 @@
 import logging
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from uvicorn.config import LOGGING_CONFIG
 
-from db.sessions import session
+from app import views
 from conf.settings import PROD, SENTRY_DSN
 from conf.sentry import init_sentry
-from .views import api
+
 
 logging.basicConfig(
     format='[%(asctime)s] %(name)s [%(levelname)s] %(message)s',
@@ -19,8 +19,10 @@ LOGGING_CONFIG["formatters"]["access"]["fmt"] = ACCESS_LOG_FMT
 
 logging.info(f'Starting app with PROD:{PROD}')
 
-app = FastAPI(docs_url='/', title='Datastore')
-app.include_router(api)
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+app.include_router(views.auth.api)
+app.include_router(views.log.api)
+app.include_router(views.docs.api)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -28,17 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-
-@app.middleware('http')
-async def rollback_alchemy(request: Request, call_next):
-    try:
-        return await call_next(request)
-    except Exception as e:
-        session.rollback()
-        raise e
-    finally:
-        session.remove()
 
 
 if PROD:

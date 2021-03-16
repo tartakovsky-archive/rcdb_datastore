@@ -8,7 +8,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from db import sessions
+from db import connection as db_connection
 
 from app.models import Model
 
@@ -44,7 +44,7 @@ def run_migrations_offline():
     script output.
 
     """
-    url = sessions.url
+    url = db_connection.url
     context.configure(
         url=url, target_metadata=target_metadata, literal_binds=True
     )
@@ -61,7 +61,7 @@ def run_migrations_online():
 
     """
     config_section = config.get_section(config.config_ini_section)
-    config_section['sqlalchemy.url'] = sessions.url
+    config_section['sqlalchemy.url'] = db_connection.url
 
     connectable = engine_from_config(
         configuration=config_section,

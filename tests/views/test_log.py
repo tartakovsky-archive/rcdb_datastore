@@ -4,22 +4,17 @@ from datetime import datetime
 import orjson
 import pytest
 from importlib import resources
-from fastapi.testclient import TestClient
 
-from app import app
 from app.enums import LogType
-from app.views import TYPE_MODEL_MAP
-from db.sessions import session
-
-client = TestClient(app)
+from app.views.log import TYPE_MODEL_MAP
 
 
 VALID_ITEMS = orjson.loads(resources.read_text('tests.datasets', 'valid_log_data.json'))
 
 
 @pytest.mark.parametrize('payload_type, items', VALID_ITEMS)
-def test_log(payload_type, items, drop_tables):
-    response = client.post(f'/log/?type={payload_type}', json=items)
+def test_log(payload_type, items, auth_client, drop_tables, session):
+    response = auth_client.post(f'/log/?type={payload_type}', json=items)
     assert response.status_code == 200, response.text
 
     data = [
@@ -31,10 +26,10 @@ def test_log(payload_type, items, drop_tables):
 
 
 @pytest.mark.parametrize('payload_type, items', VALID_ITEMS)
-def test_log_ts(payload_type, items, drop_tables):
+def test_log_ts(payload_type, items, auth_client, drop_tables, session):
     now = time.time()
     items = [{**item, 'timestamp': now + i} for i, item in enumerate(items)]
-    response = client.post(f'/log/?type={payload_type}', json=items)
+    response = auth_client.post(f'/log/?type={payload_type}', json=items)
     assert response.status_code == 200, response.text
 
     timestamps = {datetime.utcfromtimestamp(item['timestamp']) for item in items}
@@ -48,8 +43,8 @@ def test_log_ts(payload_type, items, drop_tables):
     'payload_type, items',
     orjson.loads(resources.read_text('tests.datasets', 'invalid_log_data.json'))
 )
-def test_log_invalid_schema(payload_type, items):
-    response = client.post(f'/log/?type={payload_type}', json=items)
+def test_log_invalid_schema(payload_type, items, auth_client):
+    response = auth_client.post(f'/log/?type={payload_type}', json=items)
     assert response.status_code == 422
 
 
@@ -63,7 +58,7 @@ def test_log_invalid_schema(payload_type, items):
         for query_item in query_items
     )
 )
-def latest_valid_data(request, drop_tables):
+def latest_valid_data(request, drop_tables, session):
     query_param, valid_items = request.param
     type = LogType[valid_items[0]]
     model_class = TYPE_MODEL_MAP[type]['model']
@@ -73,22 +68,33 @@ def latest_valid_data(request, drop_tables):
         for item in valid_items[1]
     )
     session.commit()
-    yield query_param['params'], valid_items[1][query_param['index']]
+    yield query_param['params'], valid_items[1][query_param['index']], valid_items
 
 
-def test_latest(latest_valid_data):
-    query_params, test_response_data = latest_valid_data
-    response = client.get(f'/latest/{query_params}')
-    assert response.json() == test_response_data
+def test_latest(latest_valid_data, auth_client):
+    query_params, test_response_data, _ = latest_valid_data
+    response = auth_client.get(f'/latest/{query_params}')
+    assert response.json()[0] == test_response_data
 
 
 @pytest.mark.parametrize(
     'payload_type, items',
     orjson.loads(resources.read_text('tests.datasets', 'lowercase_log_data.json'))
 )
-def test_lowercase_data_log(payload_type, items, drop_tables):
-    response = client.post(f'/log/?type={payload_type}', json=[items[0]])
+def test_lowercase_data_log(payload_type, items, auth_client, drop_tables):
+    response = auth_client.post(f'/log/?type={payload_type}', json=[items[0]])
     assert response.status_code == 200, response.text
 
-    response = client.get(f'/latest/?type={payload_type}')
-    assert response.json() == items[1]
+    response = auth_client.get(f'/latest/?type={payload_type}')
+    assert response.json()[0] == items[1]
+
+
+def test_latest_tail(latest_valid_data, auth_client):
+    tail = 2
+    *_, valid_items = latest_valid_data
+    query_type, valid_items = valid_items
+
+    valid_items = tuple(sorted(valid_items, key=lambda x: x['timestamp'], reverse=True)[:tail])
+
+    response = auth_client.get(f'/latest/?type={query_type}&tail={tail}')
+    assert tuple(response.json()) == valid_items

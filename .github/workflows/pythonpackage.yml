@@ -51,3 +51,4 @@ jobs:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password
         POSTGRES_DB: db
+        SA_POOL_SIZE: 20
