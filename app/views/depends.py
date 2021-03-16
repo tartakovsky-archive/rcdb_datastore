@@ -16,4 +16,5 @@ def get_session():
         session.rollback()
         raise e
     finally:
+        session.close()
         session.remove()

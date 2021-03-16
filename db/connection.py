@@ -10,8 +10,7 @@ engine = create_engine(
     pool_size=SA_POOL_SIZE,
     max_overflow=SA_MAX_OVERFLOW,
     pool_pre_ping=True,
-    encoding='utf-8',
-    pool_timeout=2,
+    encoding='utf-8'
 )
 
 

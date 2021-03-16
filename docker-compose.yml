@@ -7,8 +7,8 @@ x-env-vars: &env-vars
   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
   POSTGRES_DB: ${POSTGRES_DB:-db}
   SECRET: ${SECRET}
-  SA_POOL_SIZE: ${SA_POOL_SIZE:-4}
-  SA_MAX_OVERFLOW: ${SA_MAX_OVERFLOW:-1}
+  SA_POOL_SIZE: ${SA_POOL_SIZE:-5}
+  SA_MAX_OVERFLOW: ${SA_MAX_OVERFLOW:-10}
 
 services:
   app:
@@ -20,7 +20,7 @@ services:
       <<: *env-vars
       SENTRY_DSN: ${SENTRY_DSN}
       ENV: ${ENV}
-    command: gunicorn -k uvicorn.workers.UvicornWorker --workers=3 --threads=5 --max-requests=50 --timeout=30 --enable-stdio-inheritance --access-logfile - --access-logformat "[%(t)s] [ACCESS] %(h)s - %(r)s %(s)s %(T)s" --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
+    command: gunicorn -k uvicorn.workers.UvicornWorker --workers=3 --threads=2 --max-requests=50 --timeout=30 --enable-stdio-inheritance --access-logfile - --access-logformat "[%(t)s] [ACCESS] %(h)s - %(r)s %(s)s %(T)s" --log-level DEBUG --graceful-timeout=30 -b 0.0.0.0:8000 app:app
     restart: always
     logging:
       driver: "json-file"
@@ -52,7 +52,7 @@ services:
     ports:
       - '5432:5432'
     restart: always
-    shm_size: 256mb
+    shm_size: 512mb
     logging:
       driver: "json-file"
       options:
