@@ -6,6 +6,9 @@ x-env-vars: &env-vars
   POSTGRES_USER: ${POSTGRES_USER:-db_user}
   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
   POSTGRES_DB: ${POSTGRES_DB:-db}
+  SECRET: ${SECRET}
+  SA_POOL_SIZE: ${SA_POOL_SIZE:-4}
+  SA_MAX_OVERFLOW: ${SA_MAX_OVERFLOW:-1}
 
 services:
   app:
