@@ -97,8 +97,8 @@ def upgrade():
             'bot_performance_log_entries',
             'timestamp',
             partitioning_column => 'name',
-            number_partitions => 10,
-            chunk_time_interval => 86400
+            number_partitions => 5,
+            chunk_time_interval => interval '30 days'
         );
         """
     )
@@ -108,16 +108,16 @@ def upgrade():
             'kalman_log_entries',
             'timestamp',
             partitioning_column => 'name',
-            number_partitions => 10,
-            chunk_time_interval => 86400
+            number_partitions => 5,
+            chunk_time_interval => interval '30 days'
         );
         """
     )
     session.execute(
         """
-        SELECT create_hypertable('markets_data', 'timestamp', partitioning_column => 'symbol', number_partitions => 10, chunk_time_interval => 86400);
+        SELECT create_hypertable('markets_data', 'timestamp', partitioning_column => 'symbol', number_partitions => 5, chunk_time_interval => interval '30 days');
         SELECT add_dimension('markets_data', 'instrument', number_partitions => 4);
-        SELECT add_dimension('markets_data', 'exchange', number_partitions => 10);
+        SELECT add_dimension('markets_data', 'exchange', number_partitions => 5);
         """
     )
 
@@ -127,8 +127,8 @@ def upgrade():
             'price_indexes',
             'timestamp',
             partitioning_column => 'symbol',
-            number_partitions => 10,
-            chunk_time_interval => 86400
+            number_partitions => 5,
+            chunk_time_interval => interval '30 days'
         );
         """
     )

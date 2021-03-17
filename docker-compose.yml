@@ -47,6 +47,7 @@ services:
     image: timescale/timescaledb:1.7.2-pg12
     environment:
       <<: *env-vars
+    command: postgres -cmax_locks_per_transaction=2048
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
