@@ -44,7 +44,7 @@ services:
       - app
 
   db:
-    image: timescale/timescaledb:1.7.2-pg12
+    image: timescale/timescaledb:2.1.0-pg12
     environment:
       <<: *env-vars
     command: postgres -cmax_locks_per_transaction=2048

@@ -9,7 +9,7 @@ POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 SA_POOL_SIZE=20
 EOT
-docker run -d --rm --name test-timescale -p 5433:5432 --env-file .env.test timescale/timescaledb:1.7.2-pg12
+docker run -d --rm --name test-timescale -p 5433:5432 --env-file .env.test timescale/timescaledb:2.1.0-pg12
 docker exec test-timescale bash -c 'until pg_isready; do sleep 1; done'
 sleep 3
 source .env.test
