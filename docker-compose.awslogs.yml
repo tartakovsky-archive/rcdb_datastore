@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  app:
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: ${AWS_DEFAULT_REGION:-ap-northeast-1}
+        awslogs-group: "datastore"
+        awslogs-stream: "app"
+        awslogs-create-group: "true"
+
+  db:
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: ${AWS_DEFAULT_REGION:-ap-northeast-1}
+        awslogs-group: "datastore"
+        awslogs-stream: "db"
+        awslogs-create-group: "true"
+
+volumes:
+  db_data:
