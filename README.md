@@ -116,6 +116,10 @@ Swagger docs are available at the root route, e.g. [http://localhost/](http://lo
 ```shell
 > docker-compose -f docker-compose.yml -f docker-compose.awslogs.yml up -d db
 ```
+6. Make `docker-compose` accessible from root user:
+```shell
+> sudo ln -sf /home/ubuntu/.local/bin/docker-compose /usr/bin/docker-compose
+```
 
 ##  Prepare Github Actions
 Set secrets:  
