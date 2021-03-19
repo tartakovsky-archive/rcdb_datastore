@@ -6,7 +6,7 @@ from .base import exchange_type, symbol_type
 from .mixins import CustomJSONEncoderMixin
 from app.enums import Instrument
 
-decimal_type = condecimal(ge=0, max_digits=22, decimal_places=10)
+decimal_type = condecimal(max_digits=22, decimal_places=10)
 
 
 class MarketData(BaseModel):
