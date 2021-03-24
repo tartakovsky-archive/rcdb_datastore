@@ -52,6 +52,7 @@ def latest(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     name: Optional[str] = None,
+    bot_id: Optional[int] = None,
     tail: int = 1,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
@@ -73,8 +74,11 @@ def latest(
     if type == enums.LogType.price_index and symbol:
         query = query.filter(model_class.symbol == symbol)
 
-    elif name:
+    elif type == enums.LogType.kalman and name:
         query = query.filter(model_class.name == name)
+
+    elif type == enums.LogType.bot_performance and bot_id is not None:
+        query = query.filter(model_class.bot_id == bot_id)
 
     instances = query.order_by(model_class.timestamp.desc()).limit(tail).all()
     if not instances:

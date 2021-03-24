@@ -37,7 +37,7 @@
             "index": 2
         },
         {
-            "params": "?type=bot_performance&name=name1",
+            "params": "?type=bot_performance&bot_id=0",
             "index": 1
         }
     ],

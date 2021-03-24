@@ -86,11 +86,12 @@
         [
             {
                 "timestamp": "2021-03-10T12:15:56.387397",
-                "name": "name1",
+                "bot_id": 0,
                 "balance_base": 25.5,
                 "balance_quote": 25.3,
                 "bid": 1245.5,
                 "ask": 1245.3,
+                "price_crypto": 1245.35,
                 "price_fair": 1245.45,
                 "price_forex": 1245.35,
                 "balance_base_borrowed": 100000.5,
@@ -98,11 +99,12 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:57.387397",
-                "name": "name1",
+                "bot_id": 0,
                 "balance_base": 25.5,
                 "balance_quote": 256.3,
                 "bid": 1245.5,
                 "ask": 1245.3,
+                "price_crypto": 1245.5,
                 "price_fair": 1245.45,
                 "price_forex": 1245.35,
                 "balance_base_borrowed": 100000.5,
@@ -110,11 +112,12 @@
             },
             {
                 "timestamp": "2021-03-10T12:15:58.387397",
-                "name": "name2",
+                "bot_id": 1,
                 "balance_base": 25.5,
                 "balance_quote": 25.3,
                 "bid": 1245.5,
                 "ask": 1245.3,
+                "price_crypto": 1245.5,
                 "price_fair": 12245.45,
                 "price_forex": 1245.35,
                 "balance_base_borrowed": 100000.5,
@@ -146,6 +149,5 @@
                 "price": 1.17117149
             }
         ]
-
     ]
 ]
