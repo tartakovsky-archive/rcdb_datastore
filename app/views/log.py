@@ -1,7 +1,9 @@
 import logging
+import datetime
 from typing import Union, List, Optional
 
 from fastapi import HTTPException, APIRouter, status, Depends
+from pydantic import conint
 
 from app import schemas, enums, models, auth
 from .depends import get_session, SessionType
@@ -53,7 +55,8 @@ def latest(
     instrument: Optional[enums.Instrument] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
-    tail: int = 1,
+    date_end: Optional[datetime.datetime] = None,
+    tail: conint(gt=0, lt=35_001) = 1,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
 ) -> List[LogEntity]:
@@ -79,6 +82,9 @@ def latest(
 
     elif type == enums.LogType.bot_performance and bot_id is not None:
         query = query.filter(model_class.bot_id == bot_id)
+
+    if date_end:
+        query = query.filter(model_class.timestamp < date_end)
 
     instances = query.order_by(model_class.timestamp.desc()).limit(tail).all()
     if not instances:

@@ -98,3 +98,44 @@ def test_latest_tail(latest_valid_data, auth_client):
 
     response = auth_client.get(f'/latest/?type={query_type}&tail={tail}')
     assert tuple(response.json()) == valid_items
+
+
+@pytest.fixture(
+    params=(
+        (query_item, valid_items)
+        for query_item, valid_items in zip(
+            orjson.loads(resources.read_text('tests.datasets', 'query_params_date_end.json')),
+            VALID_ITEMS
+        )
+    )
+)
+def date_end_valid_data(request, drop_tables, session):
+    query_item, valid_items = request.param
+    type = LogType[valid_items[0]]
+    model_class = TYPE_MODEL_MAP[type]['model']
+    schema_class = TYPE_MODEL_MAP[type]['schema']
+    session.bulk_save_objects(
+        model_class(**schema_class(**item).dict())
+        for item in valid_items[1]
+    )
+    session.commit()
+
+    yield query_item['params'], tuple(valid_items[1])[slice(*query_item['slice'])] if query_item['slice'] else tuple()
+
+
+def test_latest_date_end(date_end_valid_data, auth_client):
+    params, valid_items = date_end_valid_data
+    response = auth_client.get(f'/latest/{params}')
+    if not valid_items:
+        assert response.status_code == 404
+    else:
+        assert tuple(response.json()) == tuple(sorted(valid_items, key=lambda r: r['timestamp'], reverse=True))
+
+
+@pytest.mark.parametrize('tail', (-1, 0, 35_001))
+def test_latest_tail_constraint(tail, auth_client):
+    response = auth_client.get(f'/latest/?type=ohlcv&tail={tail}')
+    msg = response.json()['detail'][0]['msg']
+
+    assert response.status_code == 422
+    assert 'ensure this value is less than 35001' == msg or 'ensure this value is greater than 0' == msg

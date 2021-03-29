@@ -1,0 +1,18 @@
+[
+    {
+        "params": "?type=ohlcv&date_end=2021-03-10T12:15:56.393693&tail=100",
+        "slice": [null, 1]
+    },
+    {
+        "params": "?type=kalman&date_end=2021-02-10T12:15:56.390257&tail=100",
+        "slice": null
+    },
+    {
+        "params": "?type=bot_performance&date_end=2021-03-10T12:15:58.387397&tail=100",
+        "slice": [null, 2]
+    },
+    {
+        "params": "?type=price_index&date_end=2021-03-15T09:54:04.200000",
+        "slice": [1, 2]
+    }
+]
