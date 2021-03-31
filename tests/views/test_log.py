@@ -139,3 +139,53 @@ def test_latest_tail_constraint(tail, auth_client):
 
     assert response.status_code == 422
     assert 'ensure this value is less than 35001' == msg or 'ensure this value is greater than 0' == msg
+
+
+@pytest.fixture
+def fill_db_valid_data(drop_tables, session):
+    for valid_items in VALID_ITEMS:
+        type = LogType[valid_items[0]]
+        model_class = TYPE_MODEL_MAP[type]['model']
+        schema_class = TYPE_MODEL_MAP[type]['schema']
+        session.bulk_save_objects(
+            model_class(**schema_class(**item).dict())
+            for item in valid_items[1]
+        )
+    session.commit()
+    yield
+
+
+@pytest.mark.parametrize(
+    'query_params, result',
+    [
+        (
+            'type=ohlcv',
+            {
+                "timestamp": "2021-03-10T12:15:57.393693",
+                "exchange": "FOREX",
+                "symbol": "BTC/USDT",
+                "instrument": "SPOT",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            }
+        ),
+        (
+            'type=kalman&name=name2&field=s1_x',
+            '0.35'
+        ),
+        (
+            'type=bot_performance&field=price_fair',
+            '12245.45'
+        ),
+        (
+            'type=price_index&symbol=EUR/USDT&field=price',
+            '1.17117149'
+        ),
+    ]
+)
+def test_latest_value(query_params, result, auth_client, fill_db_valid_data):
+    response = auth_client.get(f'/latest-value/?{query_params}')
+    assert response.json() == result

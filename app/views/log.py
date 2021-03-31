@@ -47,7 +47,7 @@ def log(
     return schemas.OkResponse()
 
 
-@api.get('/latest/', response_model=List[LogEntity])
+@api.get('/latest/', response_model=Union[List[LogEntity], Optional[Union[str, int, float]]])
 def latest(
     type: enums.LogType,
     exchange: Optional[str] = None,
@@ -56,6 +56,7 @@ def latest(
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,
+    field: Optional[str] = None,
     tail: conint(gt=0, lt=35_001) = 1,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
@@ -77,8 +78,11 @@ def latest(
     if type == enums.LogType.price_index and symbol:
         query = query.filter(model_class.symbol == symbol)
 
-    elif type == enums.LogType.kalman and name:
-        query = query.filter(model_class.name == name)
+    elif type == enums.LogType.kalman and (name or symbol):
+        if name:
+            query = query.filter(model_class.name == name)
+        elif symbol:
+            query = query.filter(model_class.name.like(f'{symbol}%'))
 
     elif type == enums.LogType.bot_performance and bot_id is not None:
         query = query.filter(model_class.bot_id == bot_id)
@@ -97,3 +101,41 @@ def latest(
         TYPE_MODEL_MAP[type]['schema'](**instance.to_dict(exclude=['id']))
         for instance in instances
     ]
+
+
+@api.get('/latest-value/', response_model=Union[LogEntity, str, int, float, None])
+def latest_value(
+    type: enums.LogType,
+    exchange: Optional[str] = None,
+    symbol: Optional[schemas.symbol_type] = None,
+    instrument: Optional[enums.Instrument] = None,
+    name: Optional[str] = None,
+    bot_id: Optional[int] = None,
+    field: Optional[str] = None,
+    session: SessionType = Depends(get_session),
+    user: schemas.UserDB = Depends(auth.get_current_active_user)
+) -> Union[LogEntity, str, int, float, None]:
+    """
+    Same as /latest/, but can return a specified field
+    """
+    if field and field not in TYPE_MODEL_MAP[type]['schema'].__fields__:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f'Entity {type} does not have field `{field}`'
+        )
+
+    response_data = latest(
+        type=type,
+        exchange=exchange,
+        symbol=symbol,
+        instrument=instrument,
+        name=name,
+        bot_id=bot_id,
+        session=session,
+        user=user
+    )
+
+    response_data = response_data[0]
+    if field:
+        return getattr(response_data, field)
+    return response_data
