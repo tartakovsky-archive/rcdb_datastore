@@ -30,8 +30,29 @@ def user(drop_tables, session):
     yield auth.create_user(**USER, session=session)
 
 
-@pytest.fixture
-def auth_client(user):
+@pytest.fixture(params=['AUTH-HEADER', 'AUTH-QUERY-PARAMETER'])
+def auth_client(user, request):
     client = TestClient(app)
-    client.headers.update({'Authorization': f'Bearer {auth.encode_token(user)}'})
-    yield client
+    token = auth.encode_token(user)
+
+    if request.param == 'AUTH-HEADER':
+        client.headers.update({'Authorization': f'Bearer {token}'})
+        yield client
+    else:
+
+        class _client:
+            def auth_url(self, url):
+                api_key_param = f'api_token={token}'
+                if '?' in url:
+                    url += f'&{api_key_param}'
+                else:
+                    url += f'?{api_key_param}'
+                return url
+
+            def get(self, url, **kwargs):
+                return client.get(self.auth_url(url), **kwargs)
+
+            def post(self, url, **kwargs):
+                return client.post(self.auth_url(url), **kwargs)
+
+        yield _client()

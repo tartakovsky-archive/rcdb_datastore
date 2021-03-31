@@ -1,15 +1,28 @@
+import logging
 from typing import Optional
 
 import jwt
 from passlib.hash import pbkdf2_sha256
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, HTTPBasic, HTTPBasicCredentials, OAuth2PasswordRequestForm
+from starlette.requests import Request
 
 from app import models, schemas
 from app.views.depends import get_session, SessionType
 from conf.settings import SECRET
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+class OAuth2PasswordBearerQueryToken(OAuth2PasswordBearer):
+    async def __call__(self, request: Request) -> Optional[str]:
+        if 'api_token' in request.query_params:
+            mutable_headers = request.headers.mutablecopy()
+            mutable_headers['Authorization'] = f'Bearer {request.query_params["api_token"]}'
+            request._headers = mutable_headers
+
+        return await super().__call__(request)
+
+
+oauth2_scheme = OAuth2PasswordBearerQueryToken(tokenUrl='token')
 
 
 def get_user(
@@ -35,7 +48,12 @@ def decode_token(
     token: str,
     session: SessionType = Depends(get_session)
 ) -> Optional[schemas.UserDB]:
-    data = jwt.decode(token, SECRET, algorithms='HS256')
+    data = None
+    try:
+        data = jwt.decode(token, SECRET, algorithms='HS256')
+    except jwt.exceptions.PyJWTError as ex:
+        logging.warning(f'Can`t decode token: {token}: {ex}')
+
     if data and 'id' in data:
         user: models.User = session.query(models.User).get(data['id'])
         if user:
