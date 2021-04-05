@@ -103,7 +103,7 @@ def latest(
     ]
 
 
-@api.get('/latest-value/', response_model=Union[LogEntity, str, int, float, None])
+@api.get('/latest-value/', response_model=Union[LogEntity, float, str, None])
 def latest_value(
     type: enums.LogType,
     exchange: Optional[str] = None,
@@ -114,7 +114,7 @@ def latest_value(
     field: Optional[str] = None,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> Union[LogEntity, str, int, float, None]:
+) -> Union[LogEntity, float, str, None]:
     """
     Same as /latest/, but can return a specified field
     """

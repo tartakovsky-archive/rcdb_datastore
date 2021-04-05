@@ -174,15 +174,15 @@ def fill_db_valid_data(drop_tables, session):
         ),
         (
             'type=kalman&name=name2&field=s1_x',
-            '0.35'
+            0.35
         ),
         (
             'type=bot_performance&field=price_fair',
-            '12245.45'
+            12245.45
         ),
         (
             'type=price_index&symbol=EUR/USDT&field=price',
-            '1.17117149'
+            1.17117149
         ),
     ]
 )
