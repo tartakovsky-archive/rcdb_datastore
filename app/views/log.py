@@ -82,7 +82,7 @@ def latest(
         if name:
             query = query.filter(model_class.name == name)
         elif symbol:
-            query = query.filter(model_class.name.like(f'{symbol}%'))
+            query = query.filter(model_class.name == symbol)
 
     elif type == enums.LogType.bot_performance and bot_id is not None:
         query = query.filter(model_class.bot_id == bot_id)
