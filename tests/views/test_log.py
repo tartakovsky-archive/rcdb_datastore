@@ -184,6 +184,10 @@ def fill_db_valid_data(drop_tables, session):
             'type=price_index&symbol=EUR/USDT&field=price',
             1.17117149
         ),
+        (
+            'type=account_trades&name=et_bn_sub10&field=price_avg_buy',
+            5
+        )
     ]
 )
 def test_latest_value(query_params, result, auth_client, fill_db_valid_data):

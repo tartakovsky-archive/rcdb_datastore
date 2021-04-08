@@ -19,9 +19,16 @@ TYPE_MODEL_MAP = {
     enums.LogType.ohlcv: {'model': models.MarketData, 'schema': schemas.MarketData},
     enums.LogType.kalman: {'model': models.KalmanLogEntry, 'schema': schemas.KalmanLogEntry},
     enums.LogType.bot_performance: {'model': models.BotPerformanceLogEntry, 'schema': schemas.BotPerformanceLogEntry},
-    enums.LogType.price_index: {'model': models.PriceIndex, 'schema': schemas.PriceIndex}
+    enums.LogType.price_index: {'model': models.PriceIndex, 'schema': schemas.PriceIndex},
+    enums.LogType.account_trades: {'model': models.AccountTrade, 'schema': schemas.AccountTrade}
 }
-LogEntity = Union[schemas.BotPerformanceLogEntry, schemas.KalmanLogEntry, schemas.MarketData, schemas.PriceIndex]
+LogEntity = Union[
+    schemas.AccountTrade,
+    schemas.BotPerformanceLogEntry,
+    schemas.KalmanLogEntry,
+    schemas.MarketData,
+    schemas.PriceIndex
+]
 
 
 @api.post('/log/', response_model=schemas.OkResponse)
@@ -86,6 +93,12 @@ def latest(
 
     elif type == enums.LogType.bot_performance and bot_id is not None:
         query = query.filter(model_class.bot_id == bot_id)
+
+    elif type == enums.LogType.account_trades and (name or symbol):
+        if name:
+            query = query.filter(model_class.name == name)
+        if symbol:
+            query = query.filter(model_class.symbol == symbol)
 
     if date_end:
         query = query.filter(model_class.timestamp < date_end)

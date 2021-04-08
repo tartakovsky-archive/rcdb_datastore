@@ -42,5 +42,32 @@
             }
         ]
 
+    ],
+    [
+        "account_trades",
+        [
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "name": "et_bn_sub10",
+                "symbol": "btc/usdt",
+                "volume_buy": 12.5,
+                "volume_sell": 15.5,
+                "price_avg_buy": 5.5,
+                "price_avg_sell": 3.5,
+                "trades_count_buy": 10,
+                "trades_count_sell": 20
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "name": "et_bn_sub10",
+                "symbol": "BTC/USDT",
+                "volume_buy": 12.5,
+                "volume_sell": 15.5,
+                "price_avg_buy": 5.5,
+                "price_avg_sell": 3.5,
+                "trades_count_buy": 10,
+                "trades_count_sell": 20
+            }
+        ]
     ]
 ]
