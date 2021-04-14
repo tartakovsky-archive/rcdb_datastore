@@ -16,11 +16,31 @@ api = APIRouter(tags=['API'])
 
 
 TYPE_MODEL_MAP = {
-    enums.LogType.ohlcv: {'model': models.MarketData, 'schema': schemas.MarketData},
-    enums.LogType.kalman: {'model': models.KalmanLogEntry, 'schema': schemas.KalmanLogEntry},
-    enums.LogType.bot_performance: {'model': models.BotPerformanceLogEntry, 'schema': schemas.BotPerformanceLogEntry},
-    enums.LogType.price_index: {'model': models.PriceIndex, 'schema': schemas.PriceIndex},
-    enums.LogType.account_trades: {'model': models.AccountTrade, 'schema': schemas.AccountTrade}
+    enums.LogType.ohlcv: {
+        'model': models.MarketData,
+        'schema': schemas.MarketData,
+        'filter_columns': ['exchange', 'symbol', 'instrument']
+    },
+    enums.LogType.kalman: {
+        'model': models.KalmanLogEntry,
+        'schema': schemas.KalmanLogEntry,
+        'filter_columns': ['name', ('name', 'symbol')]
+    },
+    enums.LogType.bot_performance: {
+        'model': models.BotPerformanceLogEntry,
+        'schema': schemas.BotPerformanceLogEntry,
+        'filter_columns': ['bot_id']
+    },
+    enums.LogType.price_index: {
+        'model': models.PriceIndex,
+        'schema': schemas.PriceIndex,
+        'filter_columns': ['symbol']
+    },
+    enums.LogType.account_trades: {
+        'model': models.AccountTrade,
+        'schema': schemas.AccountTrade,
+        'filter_columns': ['name', 'symbol', 'account_type']
+    }
 }
 LogEntity = Union[
     schemas.AccountTrade,
@@ -54,12 +74,22 @@ def log(
     return schemas.OkResponse()
 
 
+def get_filters(columns, _locals, model_class):
+    columns = [c if isinstance(c, tuple) else (c, c) for c in columns]
+    return [
+        getattr(model_class, field_name) == _locals[param_key]
+        for field_name, param_key in columns
+        if _locals.get(param_key) is not None
+    ]
+
+
 @api.get('/latest/', response_model=Union[List[LogEntity], Optional[Union[str, int, float]]])
 def latest(
     type: enums.LogType,
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
+    account_type: Optional[enums.AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,
@@ -72,33 +102,13 @@ def latest(
     Returns the latest log data by the specified parameters
     """
     model_class = TYPE_MODEL_MAP[type]['model']
-    query = session.query(model_class)
-    if type == enums.LogType.ohlcv:
-        _locals = locals()
-        query = query.filter(
-            *[
-                getattr(model_class, column_name) == _locals[column_name]
-                for column_name in ['exchange', 'symbol', 'instrument']
-                if _locals.get(column_name) is not None
-            ]
+    query = session.query(model_class).filter(
+        *get_filters(
+            TYPE_MODEL_MAP[type]['filter_columns'],
+            model_class=model_class,
+            _locals=locals()
         )
-    if type == enums.LogType.price_index and symbol:
-        query = query.filter(model_class.symbol == symbol)
-
-    elif type == enums.LogType.kalman and (name or symbol):
-        if name:
-            query = query.filter(model_class.name == name)
-        elif symbol:
-            query = query.filter(model_class.name == symbol)
-
-    elif type == enums.LogType.bot_performance and bot_id is not None:
-        query = query.filter(model_class.bot_id == bot_id)
-
-    elif type == enums.LogType.account_trades and (name or symbol):
-        if name:
-            query = query.filter(model_class.name == name)
-        if symbol:
-            query = query.filter(model_class.symbol == symbol)
+    )
 
     if date_end:
         query = query.filter(model_class.timestamp < date_end)
@@ -122,6 +132,7 @@ def latest_value(
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
+    account_type: Optional[enums.AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     field: Optional[str] = None,
@@ -142,6 +153,7 @@ def latest_value(
         exchange=exchange,
         symbol=symbol,
         instrument=instrument,
+        account_type=account_type,
         name=name,
         bot_id=bot_id,
         session=session,

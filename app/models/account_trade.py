@@ -1,8 +1,9 @@
 import datetime
 
 from .base import Model
+from app.enums import AccountType
 
-from sqlalchemy import Column, DateTime, BigInteger, Integer, Float, Sequence, text, String
+from sqlalchemy import Column, DateTime, BigInteger, Integer, Float, Sequence, text, String, Enum
 
 
 class AccountTrade(Model):
@@ -20,9 +21,12 @@ class AccountTrade(Model):
     )
     name = Column(String(200), index=True, nullable=False)
     symbol = Column(String(16), index=True, nullable=False)
+    account_type = Column(Enum(AccountType, native_enum=False), nullable=False, index=True)
 
     volume_buy = Column(Float, nullable=False)
     volume_sell = Column(Float, nullable=False)
+    volume_buy_usd = Column(Float, nullable=False)
+    volume_sell_usd = Column(Float, nullable=False)
     price_avg_buy = Column(Float, nullable=False)
     price_avg_sell = Column(Float, nullable=False)
     trades_count_buy = Column(Integer, nullable=False)

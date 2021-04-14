@@ -187,7 +187,12 @@ def fill_db_valid_data(drop_tables, session):
         (
             'type=account_trades&name=et_bn_sub10&field=price_avg_buy',
             5
-        )
+        ),
+        (
+            'type=account_trades&account_type=SPOT&field=price_avg_sell',
+            3.7
+        ),
+
     ]
 )
 def test_latest_value(query_params, result, auth_client, fill_db_valid_data):

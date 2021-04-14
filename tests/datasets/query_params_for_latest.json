@@ -59,6 +59,10 @@
         {
             "params": "?type=account_trades",
             "index": 2
+        },
+        {
+            "params": "?type=account_trades&account_type=SPOT",
+            "index": 1
         }
     ]
 ]
