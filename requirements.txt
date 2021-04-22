@@ -1,6 +1,6 @@
 alembic==1.5.6
 fastapi==0.63.0
-flake8==3.8.4
+flake8==3.9.0
 gunicorn==20.0.4
 httptools==0.1.1
 orjson==3.5.1
