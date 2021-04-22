@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from pydantic import BaseModel, constr
+from rcdb_commons.enums import AccountType
 
-from ..enums import AccountType
 from .base import symbol_type
 from .mixins import CustomJSONEncoderMixin
 
@@ -22,6 +22,7 @@ class AccountTrade(BaseModel):
     trades_count_sell: int
 
     class Config(CustomJSONEncoderMixin):
+        use_enum_values = True
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),

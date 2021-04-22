@@ -50,7 +50,7 @@
                 "timestamp": "2021-03-15T09:54:04",
                 "name": "et_bn_sub10",
                 "symbol": "btc/usdt",
-                "account_type": "isolated_margin",
+                "account_type": "ISOLATED_MARGIN",
                 "volume_buy": 12.5,
                 "volume_sell": 15.5,
                 "volume_buy_usd": 12.5,

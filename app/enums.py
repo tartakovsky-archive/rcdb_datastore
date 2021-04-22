@@ -9,7 +9,7 @@ class LogType(Enum):
     account_trades = 'account_trades'
 
 
-class UpperEnum(Enum):
+class UpperEnumMixin:
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -32,13 +32,6 @@ class UpperEnum(Enum):
         return super().__getitem__(item.upper())
 
 
-class AccountType(UpperEnum):
-    SPOT = 'SPOT'
-    FUTURES = 'FUTURES'
-    CROSS_MARGIN = 'CROSS_MARGIN'
-    ISOLATED_MARGIN = 'ISOLATED_MARGIN'
-
-
-class Instrument(UpperEnum):
+class Instrument(UpperEnumMixin, Enum):
     SPOT = 'SPOT'
     FUTURES = 'FUTURES'

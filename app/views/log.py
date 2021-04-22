@@ -1,9 +1,11 @@
 import logging
 import datetime
+import operator
 from typing import Union, List, Optional
 
 from fastapi import HTTPException, APIRouter, status, Depends
 from pydantic import conint
+from rcdb_commons import enums as common_enums
 
 from app import schemas, enums, models, auth
 from .depends import get_session, SessionType
@@ -39,7 +41,11 @@ TYPE_MODEL_MAP = {
     enums.LogType.account_trades: {
         'model': models.AccountTrade,
         'schema': schemas.AccountTrade,
-        'filter_columns': ['name', 'symbol', 'account_type']
+        'filter_columns': [
+            'name',
+            'symbol',
+            ('account_type', 'account_type', operator.attrgetter('value'))
+        ]
     }
 }
 LogEntity = Union[
@@ -75,10 +81,21 @@ def log(
 
 
 def get_filters(columns, _locals, model_class):
-    columns = [c if isinstance(c, tuple) else (c, c) for c in columns]
+    def transform(x):
+        return x
+
+    # transform columns to form (db field name, incoming data field name, transform func)
+    columns = [
+        (
+            c if len(c) == 3 else (*c, transform)
+        ) if isinstance(c, tuple) else (
+            (c, c, transform)
+        )
+        for c in columns
+    ]
     return [
-        getattr(model_class, field_name) == _locals[param_key]
-        for field_name, param_key in columns
+        getattr(model_class, field_name) == transform_func(_locals[param_key])
+        for field_name, param_key, transform_func in columns
         if _locals.get(param_key) is not None
     ]
 
@@ -89,7 +106,7 @@ def latest(
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
-    account_type: Optional[enums.AccountType] = None,
+    account_type: Optional[common_enums.AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,
@@ -132,7 +149,7 @@ def latest_value(
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
-    account_type: Optional[enums.AccountType] = None,
+    account_type: Optional[common_enums.AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     field: Optional[str] = None,

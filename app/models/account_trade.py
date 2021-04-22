@@ -1,9 +1,10 @@
 import datetime
 
 from .base import Model
-from app.enums import AccountType
 
-from sqlalchemy import Column, DateTime, BigInteger, Integer, Float, Sequence, text, String, Enum
+from sqlalchemy.orm import validates
+from sqlalchemy import Column, DateTime, BigInteger, Integer, Float, Sequence, text, String
+from rcdb_commons.enums import AccountType
 
 
 class AccountTrade(Model):
@@ -21,7 +22,7 @@ class AccountTrade(Model):
     )
     name = Column(String(200), index=True, nullable=False)
     symbol = Column(String(16), index=True, nullable=False)
-    account_type = Column(Enum(AccountType, native_enum=False), nullable=False, index=True)
+    account_type = Column(String(50), index=True, nullable=False)
 
     volume_buy = Column(Float, nullable=False)
     volume_sell = Column(Float, nullable=False)
@@ -31,3 +32,11 @@ class AccountTrade(Model):
     price_avg_sell = Column(Float, nullable=False)
     trades_count_buy = Column(Integer, nullable=False)
     trades_count_sell = Column(Integer, nullable=False)
+
+    @validates('account_type')
+    def validate_account_type(self, key, value) -> str:
+        try:
+            AccountType[value]
+            return value
+        except KeyError:
+            raise AssertionError(f'Wrong account_type value: {value}')
