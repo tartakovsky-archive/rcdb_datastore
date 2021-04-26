@@ -155,7 +155,7 @@ def latest_value(
     field: Optional[str] = None,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> Union[LogEntity, float, str, None]:
+) -> Union[LogEntity, float, str, datetime.datetime, None]:
     """
     Same as /latest/, but can return a specified field
     """
