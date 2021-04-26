@@ -143,7 +143,7 @@ def latest(
     ]
 
 
-@api.get('/latest-value/', response_model=Union[LogEntity, float, str, None])
+@api.get('/latest-value/', response_model=Union[LogEntity, float, str, datetime.datetime, None])
 def latest_value(
     type: enums.LogType,
     exchange: Optional[str] = None,
