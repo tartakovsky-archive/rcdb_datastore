@@ -15,7 +15,7 @@ sleep 3
 source .env.test
 alembic upgrade heads
 sleep 1
-pytest
+python -m pytest
 status=$?
 docker stop test-timescale
 set +a

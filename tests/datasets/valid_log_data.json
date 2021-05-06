@@ -196,5 +196,31 @@
                 "trades_count_sell": 20
             }
         ]
+    ],
+    [
+        "rebates",
+        [
+            {
+                "timestamp": "2021-03-15T09:54:04",
+                "name": "et_bn_sub10",
+                "symbol": "EUR",
+                "account_type": "CROSS_MARGIN",
+                "rebate": 11.5
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04.100000",
+                "name": "et_bn_sub10",
+                "symbol": "EUR",
+                "account_type": "SPOT",
+                "rebate": 12.5
+            },
+            {
+                "timestamp": "2021-03-15T09:54:04.200000",
+                "name": "et_bn_sub9",
+                "symbol": "GBP",
+                "account_type": "CROSS_MARGIN",
+                "rebate": 13.5
+            }
+        ]
     ]
 ]

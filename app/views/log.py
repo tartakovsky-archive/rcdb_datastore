@@ -5,7 +5,8 @@ from typing import Union, List, Optional
 
 from fastapi import HTTPException, APIRouter, status, Depends
 from pydantic import conint
-from rcdb_commons import enums as common_enums
+from rcdb_commons.lib.stores import DataType
+from rcdb_commons.lib.schemas.exchange import AccountType
 
 from app import schemas, enums, models, auth
 from .depends import get_session, SessionType
@@ -18,29 +19,38 @@ api = APIRouter(tags=['API'])
 
 
 TYPE_MODEL_MAP = {
-    enums.LogType.ohlcv: {
+    DataType.ohlcv: {
         'model': models.MarketData,
         'schema': schemas.MarketData,
         'filter_columns': ['exchange', 'symbol', 'instrument']
     },
-    enums.LogType.kalman: {
+    DataType.kalman: {
         'model': models.KalmanLogEntry,
         'schema': schemas.KalmanLogEntry,
         'filter_columns': ['name', ('name', 'symbol')]
     },
-    enums.LogType.bot_performance: {
+    DataType.bot_performance: {
         'model': models.BotPerformanceLogEntry,
         'schema': schemas.BotPerformanceLogEntry,
         'filter_columns': ['bot_id']
     },
-    enums.LogType.price_index: {
+    DataType.price_index: {
         'model': models.PriceIndex,
         'schema': schemas.PriceIndex,
         'filter_columns': ['symbol']
     },
-    enums.LogType.account_trades: {
+    DataType.account_trades: {
         'model': models.AccountTrade,
         'schema': schemas.AccountTrade,
+        'filter_columns': [
+            'name',
+            'symbol',
+            ('account_type', 'account_type', operator.attrgetter('value'))
+        ]
+    },
+    DataType.rebates: {
+        'model': models.Rebate,
+        'schema': schemas.Rebate,
         'filter_columns': [
             'name',
             'symbol',
@@ -53,13 +63,14 @@ LogEntity = Union[
     schemas.BotPerformanceLogEntry,
     schemas.KalmanLogEntry,
     schemas.MarketData,
-    schemas.PriceIndex
+    schemas.PriceIndex,
+    schemas.Rebate
 ]
 
 
 @api.post('/log/', response_model=schemas.OkResponse)
 def log(
-    type: enums.LogType,
+    type: DataType,
     items: List[LogEntity],
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
@@ -102,11 +113,11 @@ def get_filters(columns, _locals, model_class):
 
 @api.get('/latest/', response_model=Union[List[LogEntity], Optional[Union[str, int, float]]])
 def latest(
-    type: enums.LogType,
+    type: DataType,
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
-    account_type: Optional[common_enums.AccountType] = None,
+    account_type: Optional[AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,
@@ -145,11 +156,11 @@ def latest(
 
 @api.get('/latest-value/', response_model=Union[LogEntity, float, str, datetime.datetime, None])
 def latest_value(
-    type: enums.LogType,
+    type: DataType,
     exchange: Optional[str] = None,
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
-    account_type: Optional[common_enums.AccountType] = None,
+    account_type: Optional[AccountType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     field: Optional[str] = None,

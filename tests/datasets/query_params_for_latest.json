@@ -64,5 +64,19 @@
             "params": "?type=account_trades&account_type=SPOT",
             "index": 1
         }
+    ],
+    [
+        {
+            "params": "?type=rebates&name=et_bn_sub10",
+            "index": 1
+        },
+        {
+            "params": "?type=rebates",
+            "index": 2
+        },
+        {
+            "params": "?type=rebates&account_type=SPOT",
+            "index": 1
+        }
     ]
 ]

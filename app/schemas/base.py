@@ -45,5 +45,5 @@ def constr(
     return _registered(type('ConstrainedStrWithUpperValue', (ConstrainedStrWithUpper,), namespace))
 
 
-symbol_type = constr(to_upper=True, max_length=16, min_length=4)
+symbol_type = constr(to_upper=True, max_length=16, min_length=2)
 exchange_type = constr(to_upper=True, max_length=16, min_length=2)

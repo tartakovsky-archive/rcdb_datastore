@@ -6,6 +6,7 @@ from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData
 from .price_index import PriceIndex
 from .user import User
+from .rebate import Rebate
 
 
-MODELS = [AccountTrade, BotPerformanceLogEntry, KalmanLogEntry, MarketData, PriceIndex, User]
+MODELS = [AccountTrade, BotPerformanceLogEntry, KalmanLogEntry, MarketData, PriceIndex, Rebate, User]

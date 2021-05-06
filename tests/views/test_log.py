@@ -1,11 +1,11 @@
 import time
 from datetime import datetime
+from importlib import resources
 
 import orjson
 import pytest
-from importlib import resources
+from rcdb_commons.lib.stores import DataType
 
-from app.enums import LogType
 from app.views.log import TYPE_MODEL_MAP
 
 
@@ -19,7 +19,7 @@ def test_log(payload_type, items, auth_client, drop_tables, session):
 
     data = [
         orjson.loads(orjson.dumps(inst.to_dict(exclude=['id'])))
-        for inst in session.query(TYPE_MODEL_MAP[LogType[payload_type]]['model']).all()
+        for inst in session.query(TYPE_MODEL_MAP[DataType[payload_type]]['model']).all()
     ]
 
     assert all(inst_data in items for inst_data in data)
@@ -35,7 +35,7 @@ def test_log_ts(payload_type, items, auth_client, drop_tables, session):
     timestamps = {datetime.utcfromtimestamp(item['timestamp']) for item in items}
     assert all([
         inst.timestamp in timestamps
-        for inst in session.query(TYPE_MODEL_MAP[LogType[payload_type]]['model']).all()
+        for inst in session.query(TYPE_MODEL_MAP[DataType[payload_type]]['model']).all()
     ])
 
 
@@ -60,7 +60,7 @@ def test_log_invalid_schema(payload_type, items, auth_client):
 )
 def latest_valid_data(request, drop_tables, session):
     query_param, valid_items = request.param
-    type = LogType[valid_items[0]]
+    type = DataType[valid_items[0]]
     model_class = TYPE_MODEL_MAP[type]['model']
     schema_class = TYPE_MODEL_MAP[type]['schema']
     session.bulk_save_objects(
@@ -111,7 +111,7 @@ def test_latest_tail(latest_valid_data, auth_client):
 )
 def date_end_valid_data(request, drop_tables, session):
     query_item, valid_items = request.param
-    type = LogType[valid_items[0]]
+    type = DataType[valid_items[0]]
     model_class = TYPE_MODEL_MAP[type]['model']
     schema_class = TYPE_MODEL_MAP[type]['schema']
     session.bulk_save_objects(
@@ -144,7 +144,7 @@ def test_latest_tail_constraint(tail, auth_client):
 @pytest.fixture
 def fill_db_valid_data(drop_tables, session):
     for valid_items in VALID_ITEMS:
-        type = LogType[valid_items[0]]
+        type = DataType[valid_items[0]]
         model_class = TYPE_MODEL_MAP[type]['model']
         schema_class = TYPE_MODEL_MAP[type]['schema']
         session.bulk_save_objects(
@@ -192,7 +192,10 @@ def fill_db_valid_data(drop_tables, session):
             'type=account_trades&account_type=SPOT&field=price_avg_sell',
             3.7
         ),
-
+        (
+            'type=rebates&field=rebate',
+            13.5
+        ),
     ]
 )
 def test_latest_value(query_params, result, auth_client, fill_db_valid_data):

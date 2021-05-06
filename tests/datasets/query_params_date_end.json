@@ -18,5 +18,9 @@
     {
         "params": "?type=account_trades&date_end=2021-03-15T09:54:04.200000&tail=100",
         "slice": [null, 2]
+    },
+    {
+        "params": "?type=rebates&date_end=2021-03-15T09:54:04.200000&tail=100",
+        "slice": [null, 2]
     }
 ]
