@@ -24,7 +24,8 @@ class Rebate(Model):
     symbol = Column(String(16), index=True, nullable=False)
     account_type = Column(String(50), index=True, nullable=False)
 
-    rebate = Column(Float)
+    rebate = Column(Float, nullable=False)
+    rebate_usd = Column(Float, nullable=False)
 
     @validates('account_type')
     def validate_account_type(self, key, value) -> str:

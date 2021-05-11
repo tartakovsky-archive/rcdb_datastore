@@ -164,7 +164,8 @@
                 "name": "et_bn_sub10",
                 "symbol": "EUR",
                 "account_type": "wrong",
-                "rebate": 12.5
+                "rebate": 12.5,
+                "rebate_usd": 13.5
             }
         ]
     ]

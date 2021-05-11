@@ -13,6 +13,7 @@ class Rebate(BaseModel):
     symbol: symbol_type
     account_type: AccountType
     rebate: float
+    rebate_usd: float
 
     class Config(CustomJSONEncoderMixin):
         use_enum_values = True
@@ -22,6 +23,7 @@ class Rebate(BaseModel):
                 'name': 'some name',
                 'symbol': 'EUR',
                 'account_type': 'SPOT',
-                'rebate': 12.5
+                'rebate': 12.5,
+                'rebate_usd': 15.5,
             }
         }
