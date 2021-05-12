@@ -18,7 +18,7 @@ class KalmanLogEntry(Model):
         index=True,
         nullable=False
     )
-    name = Column(String(16), index=True, nullable=False)
+    name = Column(String(75), index=True, nullable=False)
     price_forex = Column(Float, nullable=False)
     price_crypto = Column(Float, nullable=False)
     ts_data = Column(Integer, nullable=False)

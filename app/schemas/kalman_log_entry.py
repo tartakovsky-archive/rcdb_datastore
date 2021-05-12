@@ -7,7 +7,7 @@ from .mixins import CustomJSONEncoderMixin
 
 class KalmanLogEntry(BaseModel):
     timestamp: datetime
-    name: constr(min_length=1, max_length=16)
+    name: constr(min_length=1, max_length=75)
     price_forex: float
     price_crypto: float
     ts_data: int
