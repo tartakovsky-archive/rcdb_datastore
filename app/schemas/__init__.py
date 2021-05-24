@@ -5,5 +5,6 @@ from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData, symbol_type
 from .price_index import PriceIndex
 from .rebate import Rebate
+from .rebate_report import RebateReport, RebateReportParameters
 from .responses import OkResponse, CredentialData
 from .user import User, UserDB

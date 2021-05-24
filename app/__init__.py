@@ -23,6 +23,7 @@ app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(views.auth.api)
 app.include_router(views.log.api)
 app.include_router(views.docs.api)
+app.include_router(views.report.api)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

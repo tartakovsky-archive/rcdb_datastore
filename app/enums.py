@@ -27,3 +27,21 @@ class UpperEnumMixin:
 class Instrument(UpperEnumMixin, Enum):
     SPOT = 'SPOT'
     FUTURES = 'FUTURES'
+
+
+class RebateCurrency(UpperEnumMixin, Enum):
+    ALL = 'ALL'
+    EUR = 'EUR'
+    GBP = 'GBP'
+    BRL = 'BRL'
+    TRY = 'TRY'
+    RUB = 'RUB'
+    UAH = 'UAH'
+    AUD = 'AUD'
+
+
+class RebateReportTimeframe(UpperEnumMixin, Enum):
+    H = 'H'
+    D = 'D'
+    W = 'W'
+    M = 'M'
