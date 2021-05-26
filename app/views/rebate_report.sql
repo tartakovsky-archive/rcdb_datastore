@@ -20,11 +20,10 @@ WITH expected_rebates AS (
                 CASE
                     WHEN symbol ilike ANY (
                         select s || '%'
-                        from unnest(ARRAY ['EUR', 'GBP', 'AUD', 'BRL', 'TRY', 'RUB', 'UAH']::text[]) s(s))
-                THEN
-                    (CASE WHEN price_avg_buy = 0 THEN 0.0 ELSE volume_buy / price_avg_buy END) +
-                    (CASE WHEN price_avg_sell = 0 THEN 0.0 ELSE volume_sell / price_avg_sell END)
-                ELSE volume_buy + account_trades.volume_sell
+                        from unnest(ARRAY ['EUR', 'GBP', 'AUD', 'BRL', 'TRY', 'RUB', 'UAH']::text[]) s(s)
+                    )
+                    THEN volume_base_buy + volume_base_sell
+                    ELSE volume_buy + volume_sell
                 END
             ) as volume,
             SUM(volume_buy_usd + volume_sell_usd) as volume_usd

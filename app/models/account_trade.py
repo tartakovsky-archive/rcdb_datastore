@@ -26,6 +26,8 @@ class AccountTrade(Model):
 
     volume_buy = Column(Float, nullable=False)
     volume_sell = Column(Float, nullable=False)
+    volume_base_buy = Column(Float, nullable=False)
+    volume_base_sell = Column(Float, nullable=False)
     volume_buy_usd = Column(Float, nullable=False)
     volume_sell_usd = Column(Float, nullable=False)
     price_avg_buy = Column(Float, nullable=False)

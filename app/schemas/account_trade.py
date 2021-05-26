@@ -14,6 +14,8 @@ class AccountTrade(BaseModel):
     account_type: AccountType
     volume_buy: float
     volume_sell: float
+    volume_base_buy: float
+    volume_base_sell: float
     volume_buy_usd: float
     volume_sell_usd: float
     price_avg_buy: float
@@ -33,6 +35,8 @@ class AccountTrade(BaseModel):
                 'volume_sell': 15.5,
                 'volume_buy_usd': 12.5,
                 'volume_sell_usd': 15.5,
+                'volume_base_buy_usd': 12.5,
+                'volume_base_sell_usd': 15.5,
                 'price_avg_buy': 5.5,
                 'price_avg_sell': 3.5,
                 'trades_count_buy': 10,
