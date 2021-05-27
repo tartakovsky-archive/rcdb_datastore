@@ -3,13 +3,14 @@ import datetime
 import operator
 from typing import Union, List, Optional
 
-from fastapi import HTTPException, APIRouter, status, Depends
+import aioredis
+from fastapi import HTTPException, APIRouter, status, Depends, Query
 from pydantic import conint
 from rcdb_commons.lib.stores import DataType
 from rcdb_commons.lib.schemas.exchange import AccountType
 
 from app import schemas, enums, models, auth
-from .depends import get_session, SessionType
+from .depends import get_session, get_redis, SessionType
 
 
 logger = logging.getLogger(__name__)
@@ -192,3 +193,20 @@ def latest_value(
     if field:
         return getattr(response_data, field)
     return response_data
+
+
+@api.get('/prices/', response_model=List[schemas.ForexPrice])
+async def prices(
+    symbol: List[str] = Query(None),
+    redis: aioredis.Redis = Depends(get_redis),
+    user: schemas.UserDB = Depends(auth.get_current_active_user)
+):
+    """
+    Returns latest forex prices
+    """
+    prefix = 'fx'
+    pipe = redis.pipeline()
+    for sym in symbol:
+        pipe.hgetall(f'{prefix}_{sym}', encoding='utf-8')
+
+    return list(filter(bool, await pipe.execute()))
