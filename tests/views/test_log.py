@@ -224,5 +224,5 @@ def fill_forex_prices():
 
 
 def test_price(fill_forex_prices, auth_client):
-    response = auth_client.get(f'/prices/?symbol=SGD%2FTRY&symbol=EUR%2FAUD&symbol=EUR%2FUSDT')
+    response = auth_client.get('/prices/?symbol=SGD%2FTRY&symbol=EUR%2FAUD&symbol=EUR%2FUSDT')
     assert tuple(response.json()) == tuple(FOREX_PRICES)
