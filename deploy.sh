@@ -24,6 +24,6 @@ while test $# -gt 0; do
 done
 
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc) && echo "Successful removed old images"
-docker-compose -f docker-compose.yml -f docker-compose.awslogs.yml up -d app nginx
+docker-compose -f docker-compose.yml -f docker-compose.awslogs.yml up -d app nginx redis
 docker-compose ps
 echo 'Deploy ended'
