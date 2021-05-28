@@ -2,6 +2,8 @@
 
 set -a
 cat > .env.test << EOT
+REDIS_HOST=localhost
+REDIS_PASSWORD=
 POSTGRES_HOST=0.0.0.0
 POSTGRES_PORT=5433
 POSTGRES_DB=test
@@ -10,6 +12,7 @@ POSTGRES_PASSWORD=password
 SA_POOL_SIZE=20
 EOT
 docker run -d --rm --name test-timescale -p 5433:5432 --env-file .env.test timescale/timescaledb:2.1.0-pg12
+docker run -d --rm --name test-redis -p 6379:6379 --env-file .env.test redis:6.2-buster
 docker exec test-timescale bash -c 'until pg_isready; do sleep 1; done'
 sleep 3
 source .env.test
@@ -17,6 +20,6 @@ alembic upgrade heads
 sleep 1
 python -m pytest
 status=$?
-docker stop test-timescale
+docker stop test-timescale test-redis
 set +a
 [ $status -eq 0 ] || exit 1

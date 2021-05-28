@@ -10,6 +10,10 @@ jobs:
         python-version: [3.7]
 
     services:
+      redis:
+        image: redis:6.2
+        ports:
+          - 6379:6379
       postgres:
         image: timescale/timescaledb:2.1.0-pg12
         env:
@@ -51,6 +55,9 @@ jobs:
     - name: Test with pytest
       run: alembic upgrade heads && pytest
       env:
+        REDIS_HOST: localhost
+        REDIS_PORT: 6379
+        REDIS_PASSWORD: ''
         POSTGRES_HOST: localhost
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password

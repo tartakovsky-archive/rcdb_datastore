@@ -1,3 +1,4 @@
+import asyncio
 import time
 from datetime import datetime
 from importlib import resources
@@ -7,6 +8,7 @@ import pytest
 from rcdb_commons.lib.stores import DataType
 
 from app.views.log import TYPE_MODEL_MAP
+from app.views.depends import get_redis
 
 
 VALID_ITEMS = orjson.loads(resources.read_text('tests.datasets', 'valid_log_data.json'))
@@ -201,3 +203,26 @@ def fill_db_valid_data(drop_tables, session):
 def test_latest_value(query_params, result, auth_client, fill_db_valid_data):
     response = auth_client.get(f'/latest-value/?{query_params}')
     assert response.json() == result
+
+
+FOREX_PRICES = [
+    {'timestamp': 1622182669, 'symbol': 'SGD/TRY', 'ask': 6.454495, 'bid': 6.454015},
+    {'timestamp': 1622182669, 'symbol': 'EUR/AUD', 'ask': 1.57734, 'bid': 1.57727}
+]
+
+
+@pytest.fixture(scope='module')
+def fill_forex_prices():
+    async def _():
+        redis = [r async for r in get_redis()][0]
+        for price in FOREX_PRICES:
+            await redis.hmset_dict(f'fx:{price["symbol"]}', price)
+
+        redis.close()
+        await redis.wait_closed()
+    asyncio.run(_())
+
+
+def test_price(fill_forex_prices, auth_client):
+    response = auth_client.get(f'/prices/?symbol=SGD%2FTRY&symbol=EUR%2FAUD&symbol=EUR%2FUSDT')
+    assert tuple(response.json()) == tuple(FOREX_PRICES)
