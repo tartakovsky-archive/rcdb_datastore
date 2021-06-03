@@ -1,28 +1,25 @@
 import logging
-from typing import Optional
+from typing import Union
 
-from fastapi import APIRouter, Depends
-from sqlalchemy import text
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from .depends import get_session, SessionType
 from app import schemas, auth
+from app.service.report import ReportManager
 
 
 logger = logging.getLogger(__name__)
-
-
 api = APIRouter(prefix='/report', tags=['API'])
-QUERY = open('app/views/rebate_report.sql').read()
 
 
-@api.post('/rebate', response_model=Optional[schemas.RebateReport])
+@api.post('', response_model=schemas.Report)
 def rebate_report(
-    report_parameters: schemas.RebateReportParameters,
+    report_parameters: Union[schemas.RebateReportParameters, schemas.PairsVolumeReportParameters],
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> schemas.RebateReport:
-    result = session.execute(text(QUERY), report_parameters.alchemy_context)
-    headers = [name[len('report_'):] if name.startswith('report_') else name for name, *_ in result.cursor.description]
-    return schemas.RebateReport(__root__=[
-        dict(zip(headers, row)) for row in result
-    ])
+) -> schemas.Report:
+    try:
+        return ReportManager(report_parameters, session).get_report()
+    except ReportManager.QueryFileException as ex:
+        logger.exception(ex)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='report_name error')

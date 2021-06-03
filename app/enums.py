@@ -40,7 +40,7 @@ class RebateCurrency(UpperEnumMixin, Enum):
     AUD = 'AUD'
 
 
-class RebateReportTimeframe(UpperEnumMixin, Enum):
+class ReportTimeframe(UpperEnumMixin, Enum):
     H = 'H'
     D = 'D'
     W = 'W'
