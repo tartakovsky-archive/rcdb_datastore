@@ -74,6 +74,8 @@ class PairsVolumeRow(BaseModel):
     symbol: symbol_type
     self_volume: float
     market_volume: float
+    self_volume_quote: float
+    market_volume_quote: float
     pct: float
 
     class Config(CustomJSONEncoderMixin):
