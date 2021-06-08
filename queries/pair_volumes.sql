@@ -20,6 +20,7 @@ market_volumes AS (
       AND timestamp <= :end_datetime
       AND exchange = 'BINANCE'
       AND instrument = 'SPOT'
+      AND (:unfilled OR symbol IN (SELECT symbol FROM self_volumes GROUP BY symbol))
     GROUP BY ts, symbol
 ),
 merged_volumes as (

@@ -67,6 +67,10 @@ class RebateReportParameters(TimeframeBasedReportParameters):
 
 class PairsVolumeReportParameters(TimeframeBasedReportParameters):
     report_name: Literal['pair_volumes']
+    unfilled: bool = True
+
+    def get_alchemy_context(self):
+        return {**self.dict(include={'unfilled'}), **super().get_alchemy_context()}
 
 
 class PairsVolumeRow(BaseModel):
