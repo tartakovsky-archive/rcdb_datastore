@@ -1,6 +1,8 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, condecimal
+from rcdb_commons.lib.schemas.exchange import AccountType
 
 from .base import exchange_type, symbol_type
 from .mixins import CustomJSONEncoderMixin
@@ -14,6 +16,7 @@ class MarketData(BaseModel):
     exchange: exchange_type
     symbol: symbol_type
     instrument: Instrument
+    account_type: Optional[AccountType]
     open: decimal_type
     high: decimal_type
     low: decimal_type
@@ -21,12 +24,14 @@ class MarketData(BaseModel):
     volume: decimal_type
 
     class Config(CustomJSONEncoderMixin):
+        use_enum_values = True
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),
                 'exchange': 'BINANCE',
                 'symbol': 'BTC/USDT',
                 'instrument': 'spot',
+                'account_type': None,
                 'open': 54953.05,
                 'high': 54963.05,
                 'low': 54933.05,

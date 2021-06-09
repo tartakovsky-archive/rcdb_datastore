@@ -34,6 +34,23 @@
         ]
     ],
     [
+        "ohlcv",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:56.393693",
+                "exchange": "binance",
+                "symbol": "BTC/USD",
+                "instrument": "spot",
+                "account_type": "some",
+                "open": 54953.05,
+                "high": 54963.05,
+                "low": 54933.05,
+                "close": 54965.05,
+                "volume": 1231254953.05
+            }
+        ]
+    ],
+    [
         "kalman",
         [
             {

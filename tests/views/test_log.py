@@ -167,6 +167,7 @@ def fill_db_valid_data(drop_tables, session):
                 "exchange": "FOREX",
                 "symbol": "BTC/USDT",
                 "instrument": "SPOT",
+                "account_type": None,
                 "open": 54953.05,
                 "high": 54963.05,
                 "low": 54933.05,
