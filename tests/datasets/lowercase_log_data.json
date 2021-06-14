@@ -102,5 +102,27 @@
                 "rebate_usd": 13.5
             }
         ]
+    ],
+    [
+        "bid_ask",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "exchange": "binance",
+                "symbol": "btc/usdt",
+                "account_type": "SPOT",
+                "bid": 54953.05,
+                "ask": 54963.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "exchange": "BINANCE",
+                "symbol": "BTC/USDT",
+                "account_type": "SPOT",
+                "bid": 54953.05,
+                "ask": 54963.05
+            }
+
+        ]
     ]
 ]

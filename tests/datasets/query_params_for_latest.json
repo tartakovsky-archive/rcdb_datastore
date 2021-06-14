@@ -78,5 +78,27 @@
             "params": "?type=rebates&account_type=SPOT",
             "index": 1
         }
+    ],
+    [
+        {
+            "params": "?type=bid_ask",
+            "index": 1
+        },
+        {
+            "params": "?type=bid_ask&exchange=BINANCE",
+            "index": 2
+        },
+        {
+            "params": "?type=bid_ask&symbol=BTC/USDT",
+            "index": 1
+        },
+        {
+            "params": "?type=bid_ask&exchange=BINANCE&symbol=LTC/USDT",
+            "index": 2
+        },
+        {
+            "params": "?type=bid_ask&account_type=USDT_M_FUTURES",
+            "index": 2
+        }
     ]
 ]

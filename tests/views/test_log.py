@@ -159,47 +159,8 @@ def fill_db_valid_data(drop_tables, session):
 
 @pytest.mark.parametrize(
     'query_params, result',
-    [
-        (
-            'type=ohlcv',
-            {
-                "timestamp": "2021-03-10T12:15:57.393693",
-                "exchange": "FOREX",
-                "symbol": "BTC/USDT",
-                "instrument": "SPOT",
-                "account_type": None,
-                "open": 54953.05,
-                "high": 54963.05,
-                "low": 54933.05,
-                "close": 54965.05,
-                "volume": 1231254953.05
-            }
-        ),
-        (
-            'type=kalman&name=name2&field=s1_x',
-            0.35
-        ),
-        (
-            'type=bot_performance&field=price_fair',
-            12245.45
-        ),
-        (
-            'type=price_index&symbol=EUR/USDT&field=price',
-            1.17117149
-        ),
-        (
-            'type=account_trades&name=et_bn_sub10&field=price_avg_buy',
-            5
-        ),
-        (
-            'type=account_trades&account_type=SPOT&field=price_avg_sell',
-            3.7
-        ),
-        (
-            'type=rebates&field=rebate',
-            13.5
-        ),
-    ]
+    orjson.loads(resources.read_text('tests.datasets', 'latest_log_parameters.json'))
+
 )
 def test_latest_value(query_params, result, auth_client, fill_db_valid_data):
     response = auth_client.get(f'/latest-value/?{query_params}')

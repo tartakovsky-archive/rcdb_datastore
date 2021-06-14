@@ -1,6 +1,7 @@
 # flake8: noqa
 from .base import Model
 from .account_trade import AccountTrade
+from .bid_ask import BidAsk
 from .bot_performance_log_entry import BotPerformanceLogEntry
 from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData
@@ -9,4 +10,4 @@ from .user import User
 from .rebate import Rebate
 
 
-MODELS = [AccountTrade, BotPerformanceLogEntry, KalmanLogEntry, MarketData, PriceIndex, Rebate, User]
+MODELS = [AccountTrade, BidAsk, BotPerformanceLogEntry, KalmanLogEntry, MarketData, PriceIndex, Rebate, User]

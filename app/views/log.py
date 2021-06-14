@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 
 api = APIRouter(tags=['API'])
 
-
+ACCOUNT_TYPE_FILTER = ('account_type', 'account_type', operator.attrgetter('value'))
 TYPE_MODEL_MAP = {
     DataType.ohlcv: {
         'model': models.MarketData,
         'schema': schemas.MarketData,
-        'filter_columns': ['exchange', 'symbol', 'instrument']
+        'filter_columns': ['exchange', 'symbol', 'instrument', ACCOUNT_TYPE_FILTER]
     },
     DataType.kalman: {
         'model': models.KalmanLogEntry,
@@ -43,24 +43,22 @@ TYPE_MODEL_MAP = {
     DataType.account_trades: {
         'model': models.AccountTrade,
         'schema': schemas.AccountTrade,
-        'filter_columns': [
-            'name',
-            'symbol',
-            ('account_type', 'account_type', operator.attrgetter('value'))
-        ]
+        'filter_columns': ['name', 'symbol', ACCOUNT_TYPE_FILTER]
     },
     DataType.rebates: {
         'model': models.Rebate,
         'schema': schemas.Rebate,
-        'filter_columns': [
-            'name',
-            'symbol',
-            ('account_type', 'account_type', operator.attrgetter('value'))
-        ]
+        'filter_columns': ['name', 'symbol', ACCOUNT_TYPE_FILTER]
+    },
+    DataType.bid_ask: {
+        'model': models.BidAsk,
+        'schema': schemas.BidAsk,
+        'filter_columns': ['exchange', 'symbol', ACCOUNT_TYPE_FILTER]
     }
 }
 LogEntity = Union[
     schemas.AccountTrade,
+    schemas.BidAsk,
     schemas.BotPerformanceLogEntry,
     schemas.KalmanLogEntry,
     schemas.MarketData,
