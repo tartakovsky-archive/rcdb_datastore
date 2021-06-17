@@ -26,5 +26,9 @@
     {
         "params": "?type=bid_ask&date_end=2021-03-10T12:15:56.393693&tail=100",
         "slice": [null, 1]
+    },
+    {
+        "params": "?type=balance&date_end=2021-03-10T12:15:56.393693&tail=100",
+        "slice": [null, 1]
     }
 ]

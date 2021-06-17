@@ -100,5 +100,23 @@
             "params": "?type=bid_ask&account_type=USDT_M_FUTURES",
             "index": 2
         }
+    ],
+    [
+        {
+            "params": "?type=balance",
+            "index": 1
+        },
+        {
+            "params": "?type=balance&symbol=BTC",
+            "index": 1
+        },
+        {
+            "params": "?type=balance&symbol=LTC",
+            "index": 2
+        },
+        {
+            "params": "?type=balance&account_type=USDT_M_FUTURES",
+            "index": 2
+        }
     ]
 ]

@@ -124,5 +124,32 @@
             }
 
         ]
+    ],
+    [
+        "balance",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "symbol": "btc",
+                "account_type": "USDT_M_FUTURES",
+                "amount": 54953.05,
+                "amount_usd": 54953.05,
+                "borrowed": 54953.05,
+                "borrowed_usd": 54953.05,
+                "interest": 54953.05,
+                "interest_usd": 54963.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "symbol": "BTC",
+                "account_type": "USDT_M_FUTURES",
+                "amount": 54953.05,
+                "amount_usd": 54953.05,
+                "borrowed": 54953.05,
+                "borrowed_usd": 54953.05,
+                "interest": 54953.05,
+                "interest_usd": 54963.05
+            }
+        ]
     ]
 ]

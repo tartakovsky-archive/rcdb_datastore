@@ -54,10 +54,16 @@ TYPE_MODEL_MAP = {
         'model': models.BidAsk,
         'schema': schemas.BidAsk,
         'filter_columns': ['exchange', 'symbol', ACCOUNT_TYPE_FILTER]
+    },
+    DataType.balance: {
+        'model': models.Balance,
+        'schema': schemas.Balance,
+        'filter_columns': ['name', 'symbol', ACCOUNT_TYPE_FILTER]
     }
 }
 LogEntity = Union[
     schemas.AccountTrade,
+    schemas.Balance,
     schemas.BidAsk,
     schemas.BotPerformanceLogEntry,
     schemas.KalmanLogEntry,

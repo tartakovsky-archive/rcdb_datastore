@@ -41,5 +41,9 @@
     [
         "type=bid_ask&field=bid",
         54951.05
+    ],
+    [
+        "type=balance&field=amount",
+        154953.05
     ]
 ]
