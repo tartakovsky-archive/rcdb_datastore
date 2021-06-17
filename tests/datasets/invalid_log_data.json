@@ -219,6 +219,7 @@
             {
                 "timestamp": "2021-03-10T12:15:55.393693",
                 "account_type": "USDT_M_FUTURES",
+                "name": "name",
                 "amount": 54953.05,
                 "amount_usd": 54953.05,
                 "borrowed": 54953.05,
@@ -234,6 +235,7 @@
             {
                 "timestamp": "2021-03-10T12:15:55.393693",
                 "account_type": "some",
+                "name": "name",
                 "amount": 54953.05,
                 "amount_usd": 54953.05,
                 "borrowed": 54953.05,

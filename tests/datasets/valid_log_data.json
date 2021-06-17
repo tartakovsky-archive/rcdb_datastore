@@ -270,6 +270,7 @@
             {
                 "timestamp": "2021-03-10T12:15:55.393693",
                 "symbol": "BTC",
+                "name": "name",
                 "account_type": "USDT_M_FUTURES",
                 "amount": 54953.05,
                 "amount_usd": 54953.05,
@@ -281,6 +282,7 @@
             {
                 "timestamp": "2021-03-10T12:15:57.393693",
                 "symbol": "BTC",
+                "name": "name",
                 "account_type": "SPOT",
                 "amount": 154953.05,
                 "amount_usd": 54953.05,
@@ -292,6 +294,7 @@
             {
                 "timestamp": "2021-03-10T12:15:56.393693",
                 "symbol": "LTC",
+                "name": "name",
                 "account_type": "USDT_M_FUTURES",
                 "amount": 54953.05,
                 "amount_usd": 54953.05,

@@ -20,6 +20,7 @@ class Balance(Model):
         nullable=False
     )
     symbol = Column(String(50), nullable=False, index=True)
+    name = Column(String(200), nullable=False, index=True)
     account_type = Column(String(50), nullable=False, index=True)
     amount = Column(Numeric(27, 18, asdecimal=False), nullable=False)
     amount_usd = Column(Numeric(27, 18, asdecimal=False), nullable=False)
