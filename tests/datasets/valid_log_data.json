@@ -211,6 +211,7 @@
         [
             {
                 "timestamp": "2021-03-15T09:54:04",
+                "timestamp_received": "2021-03-15T09:54:04",
                 "name": "et_bn_sub10",
                 "symbol": "EUR",
                 "account_type": "CROSS_MARGIN",
@@ -219,6 +220,7 @@
             },
             {
                 "timestamp": "2021-03-15T09:54:04.100000",
+                "timestamp_received": "2021-03-15T09:54:04.100000",
                 "name": "et_bn_sub10",
                 "symbol": "EUR",
                 "account_type": "SPOT",
@@ -227,6 +229,7 @@
             },
             {
                 "timestamp": "2021-03-15T09:54:04.200000",
+                "timestamp_received": "2021-03-15T09:54:04.200000",
                 "name": "et_bn_sub9",
                 "symbol": "GBP",
                 "account_type": "CROSS_MARGIN",

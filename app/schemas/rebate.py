@@ -9,6 +9,7 @@ from .mixins import CustomJSONEncoderMixin
 
 class Rebate(BaseModel):
     timestamp: datetime
+    timestamp_received: datetime
     name: constr(min_length=1, max_length=200)
     symbol: symbol_type
     account_type: AccountType
@@ -20,6 +21,7 @@ class Rebate(BaseModel):
         schema_extra = {
             'example': {
                 'timestamp': datetime.utcnow(),
+                'timestamp_received': datetime.utcnow(),
                 'name': 'some name',
                 'symbol': 'EUR',
                 'account_type': 'SPOT',

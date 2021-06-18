@@ -146,7 +146,12 @@ def latest(
     if date_end:
         query = query.filter(model_class.timestamp < date_end)
 
-    instances = query.order_by(model_class.timestamp.desc()).limit(tail).all()
+    if model_class == models.Rebate:
+        order = model_class.timestamp_received.desc()
+    else:
+        order = model_class.timestamp.desc()
+
+    instances = query.order_by(order).limit(tail).all()
     if not instances:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

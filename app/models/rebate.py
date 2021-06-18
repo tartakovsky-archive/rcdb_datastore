@@ -1,9 +1,7 @@
-import datetime
-
 from .base import Model
 
 from sqlalchemy.orm import validates
-from sqlalchemy import Column, DateTime, BigInteger, Float, Sequence, text, String
+from sqlalchemy import Column, DateTime, BigInteger, Float, Sequence, String
 from rcdb_commons.lib.schemas.exchange import AccountType
 
 
@@ -15,8 +13,11 @@ class Rebate(Model):
     id = Column(BigInteger, id_seq, primary_key=True, server_default=id_seq.next_value())  # dummy pk
     timestamp = Column(
         DateTime,
-        default=datetime.datetime.utcnow,
-        server_default=text('now()'),
+        index=True,
+        nullable=False
+    )
+    timestamp_received = Column(
+        DateTime,
         index=True,
         nullable=False
     )

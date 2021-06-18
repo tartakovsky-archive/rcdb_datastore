@@ -87,6 +87,7 @@
         [
             {
                 "timestamp": "2021-03-15T09:54:04",
+                "timestamp_received": "2021-03-15T09:54:04",
                 "name": "et_bn_sub10",
                 "symbol": "eur",
                 "account_type": "ISOLATED_MARGIN",
@@ -95,6 +96,7 @@
             },
             {
                 "timestamp": "2021-03-15T09:54:04",
+                "timestamp_received": "2021-03-15T09:54:04",
                 "name": "et_bn_sub10",
                 "symbol": "EUR",
                 "account_type": "ISOLATED_MARGIN",
