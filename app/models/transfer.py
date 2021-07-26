@@ -2,9 +2,9 @@ import datetime
 
 from sqlalchemy.orm import validates
 from sqlalchemy import Column, DateTime, Numeric, String, text, BigInteger, Sequence
+from rcdb_commons.lib.schemas.exchange import TransferType
 
 from .base import Model
-from app.enums import TransferType
 
 
 class Transfer(Model):

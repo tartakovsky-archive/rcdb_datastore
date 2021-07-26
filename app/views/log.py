@@ -7,7 +7,7 @@ import aioredis
 from fastapi import HTTPException, APIRouter, status, Depends, Query
 from pydantic import conint
 from rcdb_commons.lib.stores import DataType
-from rcdb_commons.lib.schemas.exchange import AccountType
+from rcdb_commons.lib.schemas.exchange import AccountType, TransferType
 
 from app import schemas, enums, models, auth
 from .depends import get_session, get_redis, SessionType
@@ -131,7 +131,7 @@ def latest(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     account_type: Optional[AccountType] = None,
-    transfer_type: Optional[enums.TransferType] = None,
+    transfer_type: Optional[TransferType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,

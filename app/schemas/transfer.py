@@ -1,9 +1,9 @@
 from datetime import datetime
 
+from rcdb_commons.lib.schemas.exchange import TransferType
 from pydantic import BaseModel, condecimal, constr as standard_constr
 
 from .base import constr
-from app.enums import TransferType
 from .mixins import CustomJSONEncoderMixin
 
 decimal_type = condecimal(max_digits=27, decimal_places=18)
