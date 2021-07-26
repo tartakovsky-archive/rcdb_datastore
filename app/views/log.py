@@ -224,7 +224,7 @@ async def prices(
     """
     prefix = 'fx'
     pipe = redis.pipeline()
-    for sym in symbol:
+    for sym in (symbol or []):
         pipe.hgetall(f'{prefix}:{sym}', encoding='utf-8')
 
     return list(filter(bool, await pipe.execute()))
