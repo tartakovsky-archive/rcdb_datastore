@@ -30,7 +30,8 @@ def user(drop_tables, session):
     yield auth.create_user(**USER, session=session)
 
 
-@pytest.fixture(params=['AUTH-HEADER', 'AUTH-QUERY-PARAMETER'])
+# @pytest.fixture(params=['AUTH-HEADER', 'AUTH-QUERY-PARAMETER'])
+@pytest.fixture(params=['AUTH-HEADER'])
 def auth_client(user, request):
     client = TestClient(app)
     token = auth.encode_token(user)

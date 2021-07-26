@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 api = APIRouter(tags=['API'])
 
 ACCOUNT_TYPE_FILTER = ('account_type', 'account_type', operator.attrgetter('value'))
+TRANSFER_TYPE_FILTER = ('transfer_type', 'transfer_type', operator.attrgetter('value'))
+
 TYPE_MODEL_MAP = {
     DataType.ohlcv: {
         'model': models.MarketData,
@@ -59,6 +61,11 @@ TYPE_MODEL_MAP = {
         'model': models.Balance,
         'schema': schemas.Balance,
         'filter_columns': ['name', 'symbol', ACCOUNT_TYPE_FILTER]
+    },
+    DataType.transfers: {
+        'model': models.Transfer,
+        'schema': schemas.Transfer,
+        'filter_columns': ['name', 'symbol', TRANSFER_TYPE_FILTER]
     }
 }
 LogEntity = Union[
@@ -69,7 +76,8 @@ LogEntity = Union[
     schemas.KalmanLogEntry,
     schemas.MarketData,
     schemas.PriceIndex,
-    schemas.Rebate
+    schemas.Rebate,
+    schemas.Transfer
 ]
 
 
@@ -123,6 +131,7 @@ def latest(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     account_type: Optional[AccountType] = None,
+    transfer_type: Optional[enums.TransferType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_end: Optional[datetime.datetime] = None,

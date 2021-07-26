@@ -45,5 +45,9 @@
     [
         "type=balance&field=amount",
         154953.05
+    ],
+    [
+        "type=transfers&field=amount",
+        54954.05
     ]
 ]

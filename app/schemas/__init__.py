@@ -10,4 +10,5 @@ from .price_index import PriceIndex
 from .rebate import Rebate
 from .reports import Report, RebateReportParameters, PairsVolumeReportParameters, ReportParameters
 from .responses import OkResponse, CredentialData
+from .transfer import Transfer
 from .user import User, UserDB

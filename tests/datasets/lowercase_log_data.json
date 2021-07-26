@@ -155,5 +155,26 @@
                 "interest_usd": 54963.05
             }
         ]
+    ],
+    [
+        "transfers",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "symbol": "usdt",
+                "name": "et_bn_sub1",
+                "transfer_type": "MAIN_MARGIN",
+                "amount": 54953.05,
+                "amount_usd": 54953.05
+            },
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "symbol": "USDT",
+                "name": "et_bn_sub1",
+                "transfer_type": "MAIN_MARGIN",
+                "amount": 54953.05,
+                "amount_usd": 54953.05
+            }
+        ]
     ]
 ]
