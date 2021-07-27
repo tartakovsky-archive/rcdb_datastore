@@ -34,5 +34,9 @@
     {
         "params": "?type=transfers&date_end=2021-03-10T12:15:56.393693&tail=100",
         "slice": [null, 1]
+    },
+    {
+        "params": "?type=price_index&date_start=2021-03-15T09:54:04.100000&date_end=2021-03-15T09:54:04.300000&tail=100",
+        "slice": [1, 3]
     }
 ]

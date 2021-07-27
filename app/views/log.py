@@ -134,6 +134,7 @@ def latest(
     transfer_type: Optional[TransferType] = None,
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
+    date_start: Optional[datetime.datetime] = None,
     date_end: Optional[datetime.datetime] = None,
     field: Optional[str] = None,
     tail: conint(gt=0, lt=35_001) = 1,
@@ -151,6 +152,9 @@ def latest(
             _locals=locals()
         )
     )
+
+    if date_start:
+        query = query.filter(model_class.timestamp >= date_start)
 
     if date_end:
         query = query.filter(model_class.timestamp < date_end)
