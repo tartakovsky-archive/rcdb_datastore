@@ -13,6 +13,7 @@ class Transfer(BaseModel):
     timestamp: datetime
     symbol: constr(min_length=2, max_length=50, to_upper=True)
     transfer_type: TransferType
+    is_sub_account_transfer: bool
     name: standard_constr(min_length=1, max_length=200)
     amount: decimal_type
     amount_usd: decimal_type
@@ -25,6 +26,7 @@ class Transfer(BaseModel):
                 'symbol': 'USDT',
                 'name': 'et_bn_sub1',
                 'transfer_type': 'MAIN_MARGIN',
+                'is_sub_account_transfer': False,
                 'amount': 54953.05,
                 'amount_usd': 54953.05,
             }

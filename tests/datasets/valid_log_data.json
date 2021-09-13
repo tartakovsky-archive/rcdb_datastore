@@ -316,6 +316,7 @@
                 "symbol": "USDT",
                 "name": "et_bn_sub1",
                 "transfer_type": "MAIN_MARGIN",
+                "is_sub_account_transfer": true,
                 "amount": 54953.05,
                 "amount_usd": 54953.05
             },
@@ -324,6 +325,7 @@
                 "symbol": "BTC",
                 "name": "et_bn_sub1",
                 "transfer_type": "MAIN_C2C",
+                "is_sub_account_transfer": false,
                 "amount": 54954.05,
                 "amount_usd": 54954.05
             },
@@ -332,6 +334,7 @@
                 "symbol": "LTC",
                 "name": "et_bn_sub1",
                 "transfer_type": "MAIN_MARGIN",
+                "is_sub_account_transfer": false,
                 "amount": 54955.05,
                 "amount_usd": 54955.05
             }

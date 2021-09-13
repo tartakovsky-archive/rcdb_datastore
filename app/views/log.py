@@ -1,11 +1,11 @@
 import logging
 import datetime
 import operator
-from typing import Union, List, Optional
+from typing import Union, List, Optional, Callable
 
 import aioredis
 from fastapi import HTTPException, APIRouter, status, Depends, Query
-from pydantic import conint
+from pydantic import conint, BaseModel, Field, validator
 from rcdb_commons.lib.stores import DataType
 from rcdb_commons.lib.schemas.exchange import AccountType, TransferType
 
@@ -18,8 +18,41 @@ logger = logging.getLogger(__name__)
 
 api = APIRouter(tags=['API'])
 
-ACCOUNT_TYPE_FILTER = ('account_type', 'account_type', operator.attrgetter('value'))
-TRANSFER_TYPE_FILTER = ('transfer_type', 'transfer_type', operator.attrgetter('value'))
+
+class FilterColumn(BaseModel):
+    """
+    Column filter:
+        session.query(Entity).filter(
+            fc.matching_expression_func(
+                getattr(Entity, fc.field_name),
+                fc.transform_func(GET_QUERY_PARAMETERS[fc.query_param_name])
+            )
+        )
+    """
+    field_name: str
+    query_param_name: str
+    transform_func: Callable = Field(default=lambda query_param_value: query_param_value)
+    matching_expression_func: Callable = Field(default=lambda field, value: field == value)
+
+    def __init__(self, *args, **kwargs):
+        if args and not isinstance(args[0], dict):
+            for k, v in zip(
+                ['field_name', 'query_name', 'transform_func', 'matching_expression_func'][:len(args)],
+                args
+            ):
+                kwargs[k] = v
+            args = []
+            if not kwargs.get('query_param_name'):
+                kwargs['query_param_name'] = kwargs.get('field_name')
+        super().__init__(*args, **kwargs)
+
+    @validator('query_param_name', pre=True, always=True)
+    def default_query_param_name(cls, v, *, values, **kwargs):
+        return v or values['field_name']
+
+
+ACCOUNT_TYPE_FILTER = FilterColumn('account_type', transform_func=operator.attrgetter('value'))
+
 
 TYPE_MODEL_MAP = {
     DataType.ohlcv: {
@@ -30,7 +63,7 @@ TYPE_MODEL_MAP = {
     DataType.kalman: {
         'model': models.KalmanLogEntry,
         'schema': schemas.KalmanLogEntry,
-        'filter_columns': ['name', ('name', 'symbol')]
+        'filter_columns': ['name', FilterColumn('name', 'symbol')]
     },
     DataType.bot_performance: {
         'model': models.BotPerformanceLogEntry,
@@ -65,7 +98,18 @@ TYPE_MODEL_MAP = {
     DataType.transfers: {
         'model': models.Transfer,
         'schema': schemas.Transfer,
-        'filter_columns': ['name', 'symbol', TRANSFER_TYPE_FILTER]
+        'filter_columns': [
+            'name',
+            'symbol',
+            'is_sub_account_transfer',
+            FilterColumn(
+                'transfer_type',
+                transform_func=lambda x: list(map(operator.attrgetter('value'), x)),
+                matching_expression_func=(
+                    lambda field, value: field.in_(value)
+                )
+            )
+        ]
     }
 }
 LogEntity = Union[
@@ -104,23 +148,17 @@ def log(
     return schemas.OkResponse()
 
 
-def get_filters(columns, _locals, model_class):
-    def transform(x):
-        return x
-
-    # transform columns to form (db field name, incoming data field name, transform func)
-    columns = [
-        (
-            c if len(c) == 3 else (*c, transform)
-        ) if isinstance(c, tuple) else (
-            (c, c, transform)
-        )
-        for c in columns
-    ]
+def get_filters(columns: List[Union[str, FilterColumn]], _locals, model_class):
     return [
-        getattr(model_class, field_name) == transform_func(_locals[param_key])
-        for field_name, param_key, transform_func in columns
-        if _locals.get(param_key) is not None
+        filter_column.matching_expression_func(
+            getattr(model_class, filter_column.field_name),
+            filter_column.transform_func(_locals[filter_column.query_param_name])
+        )
+        for filter_column in map(
+            lambda x: FilterColumn(x) if isinstance(x, str) else x,
+            columns
+        )
+        if _locals.get(filter_column.query_param_name) is not None
     ]
 
 
@@ -131,11 +169,12 @@ def latest(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     account_type: Optional[AccountType] = None,
-    transfer_type: Optional[TransferType] = None,
+    transfer_type: Optional[List[TransferType]] = Query(None),
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
     date_start: Optional[datetime.datetime] = None,
     date_end: Optional[datetime.datetime] = None,
+    is_sub_account_transfer: Optional[bool] = None,
     field: Optional[str] = None,
     tail: conint(gt=0, lt=35_001) = 1,
     session: SessionType = Depends(get_session),
@@ -184,8 +223,10 @@ def latest_value(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     account_type: Optional[AccountType] = None,
+    transfer_type: Optional[List[TransferType]] = Query(None),
     name: Optional[str] = None,
     bot_id: Optional[int] = None,
+    is_sub_account_transfer: Optional[bool] = None,
     field: Optional[str] = None,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
@@ -208,7 +249,9 @@ def latest_value(
         name=name,
         bot_id=bot_id,
         session=session,
-        user=user
+        user=user,
+        transfer_type=transfer_type,
+        is_sub_account_transfer=is_sub_account_transfer
     )
 
     response_data = response_data[0]

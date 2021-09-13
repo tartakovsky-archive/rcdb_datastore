@@ -164,6 +164,7 @@
                 "symbol": "usdt",
                 "name": "et_bn_sub1",
                 "transfer_type": "MAIN_MARGIN",
+                "is_sub_account_transfer": true,
                 "amount": 54953.05,
                 "amount_usd": 54953.05
             },
@@ -172,6 +173,7 @@
                 "symbol": "USDT",
                 "name": "et_bn_sub1",
                 "transfer_type": "MAIN_MARGIN",
+                "is_sub_account_transfer": true,
                 "amount": 54953.05,
                 "amount_usd": 54953.05
             }

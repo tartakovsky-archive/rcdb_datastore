@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy.orm import validates
-from sqlalchemy import Column, DateTime, Numeric, String, text, BigInteger, Sequence
+from sqlalchemy import Column, DateTime, Numeric, String, text, BigInteger, Sequence, Boolean
 from rcdb_commons.lib.schemas.exchange import TransferType
 
 from .base import Model
@@ -22,6 +22,7 @@ class Transfer(Model):
     symbol = Column(String(50), nullable=False, index=True)
     name = Column(String(200), nullable=False, index=True)
     transfer_type = Column(String(50), nullable=False, index=True)
+    is_sub_account_transfer = Column(Boolean, nullable=False, index=True)
     amount = Column(Numeric(27, 18, asdecimal=False), nullable=False)
     amount_usd = Column(Numeric(27, 18, asdecimal=False), nullable=False)
 
