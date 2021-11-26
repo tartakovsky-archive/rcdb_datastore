@@ -110,6 +110,11 @@ TYPE_MODEL_MAP = {
                 )
             )
         ]
+    },
+    DataType.bswap_quote: {
+        'model': models.BSwapQuote,
+        'schema': schemas.BSwapQuote,
+        'filter_columns': ['symbol']
     }
 }
 LogEntity = Union[
@@ -117,6 +122,7 @@ LogEntity = Union[
     schemas.Balance,
     schemas.BidAsk,
     schemas.BotPerformanceLogEntry,
+    schemas.BSwapQuote,
     schemas.KalmanLogEntry,
     schemas.MarketData,
     schemas.PriceIndex,

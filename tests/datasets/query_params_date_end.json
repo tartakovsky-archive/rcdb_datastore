@@ -12,8 +12,8 @@
         "slice": [null, 2]
     },
     {
-        "params": "?type=price_index&date_end=2021-03-15T09:54:04.200000",
-        "slice": [1, 2]
+        "params": "?type=price_index&date_start=2021-03-15T09:54:04.100000&date_end=2021-03-15T09:54:04.300000&tail=100",
+        "slice": [1, 3]
     },
     {
         "params": "?type=account_trades&date_end=2021-03-15T09:54:04.200000&tail=100",
@@ -36,7 +36,7 @@
         "slice": [null, 1]
     },
     {
-        "params": "?type=price_index&date_start=2021-03-15T09:54:04.100000&date_end=2021-03-15T09:54:04.300000&tail=100",
-        "slice": [1, 3]
+        "params": "?type=bswap_quote&date_end=2021-03-10T12:15:56.393693&tail=100",
+        "slice": [null, 1]
     }
 ]

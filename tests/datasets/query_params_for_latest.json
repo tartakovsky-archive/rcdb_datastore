@@ -136,5 +136,19 @@
             "params": "?type=transfers&transfer_type=MAIN_MARGIN",
             "index": 2
         }
+    ],
+    [
+        {
+            "params": "?type=bswap_quote",
+            "index": 1
+        },
+        {
+            "params": "?type=bswap_quote&symbol=BTC/USDT",
+            "index": 0
+        },
+        {
+            "params": "?type=bswap_quote&symbol=LTC/USDT",
+            "index": 1
+        }
     ]
 ]

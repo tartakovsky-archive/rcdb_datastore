@@ -12,6 +12,10 @@ from app.views.depends import get_redis
 
 
 VALID_ITEMS = orjson.loads(resources.read_text('tests.datasets', 'valid_log_data.json'))
+QUERY_PARAMS_DATE_END = orjson.loads(resources.read_text('tests.datasets', 'query_params_date_end.json'))
+QUERY_PARAMS_FOR_LATEST = orjson.loads(resources.read_text('tests.datasets', 'query_params_for_latest.json'))
+assert len(VALID_ITEMS) == len(QUERY_PARAMS_DATE_END)
+assert len(VALID_ITEMS) == len(QUERY_PARAMS_FOR_LATEST)
 
 
 @pytest.mark.parametrize('payload_type, items', VALID_ITEMS)
@@ -53,10 +57,7 @@ def test_log_invalid_schema(payload_type, items, auth_client):
 @pytest.fixture(
     params=(
         (query_item, valid_items)
-        for query_items, valid_items in zip(
-            orjson.loads(resources.read_text('tests.datasets', 'query_params_for_latest.json')),
-            VALID_ITEMS
-        )
+        for query_items, valid_items in zip(QUERY_PARAMS_FOR_LATEST, VALID_ITEMS)
         for query_item in query_items
     )
 )
@@ -103,13 +104,7 @@ def test_latest_tail(latest_valid_data, auth_client):
 
 
 @pytest.fixture(
-    params=(
-        (query_item, valid_items)
-        for query_item, valid_items in zip(
-            orjson.loads(resources.read_text('tests.datasets', 'query_params_date_end.json')),
-            VALID_ITEMS
-        )
-    )
+    params=((query_item, valid_items) for query_item, valid_items in zip(QUERY_PARAMS_DATE_END, VALID_ITEMS))
 )
 def date_end_valid_data(request, drop_tables, session):
     query_item, valid_items = request.param

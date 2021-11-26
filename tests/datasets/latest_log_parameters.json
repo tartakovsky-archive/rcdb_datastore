@@ -49,5 +49,9 @@
     [
         "type=transfers&field=amount",
         54954.05
+    ],
+    [
+        "type=bswap_quote&field=price",
+        54953.05
     ]
 ]

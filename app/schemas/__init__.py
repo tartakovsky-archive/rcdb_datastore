@@ -3,6 +3,7 @@ from .account_trade import AccountTrade
 from .balance import Balance
 from .bid_ask import BidAsk
 from .bot_perfomance_log_entry import BotPerformanceLogEntry
+from .bswap_quote import BSwapQuote
 from .forex_price import ForexPrice
 from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData, symbol_type

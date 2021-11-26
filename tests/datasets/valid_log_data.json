@@ -339,5 +339,31 @@
                 "amount_usd": 54955.05
             }
         ]
+    ],
+    [
+        "bswap_quote",
+        [
+            {
+                "timestamp": "2021-03-10T12:15:55.393693",
+                "symbol": "BTC/USDT",
+                "price": 54953.05,
+                "slippage": 0.00007245,
+                "fee": 120
+            },
+            {
+                "timestamp": "2021-03-10T12:15:57.393693",
+                "symbol": "LTC/USDT",
+                "price": 54953.05,
+                "slippage": 0.00007245,
+                "fee": 120
+            },
+            {
+                "timestamp": "2021-03-10T12:15:56.393693",
+                "symbol": "ETH/USDT",
+                "price": 54953.05,
+                "slippage": 0.00007245,
+                "fee": 120
+            }
+        ]
     ]
 ]
