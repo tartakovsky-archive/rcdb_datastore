@@ -129,13 +129,13 @@ def test_latest_date_end(date_end_valid_data, auth_client):
         assert tuple(response.json()) == tuple(sorted(valid_items, key=lambda r: r['timestamp'], reverse=True))
 
 
-@pytest.mark.parametrize('tail', (-1, 0, 35_001))
+@pytest.mark.parametrize('tail', (-1, 0, 100_001))
 def test_latest_tail_constraint(tail, auth_client):
     response = auth_client.get(f'/latest/?type=ohlcv&tail={tail}')
     msg = response.json()['detail'][0]['msg']
 
     assert response.status_code == 422
-    assert 'ensure this value is less than 35001' == msg or 'ensure this value is greater than 0' == msg
+    assert 'ensure this value is less than 100001' == msg or 'ensure this value is greater than 0' == msg
 
 
 @pytest.fixture

@@ -182,7 +182,7 @@ def latest(
     date_end: Optional[datetime.datetime] = None,
     is_sub_account_transfer: Optional[bool] = None,
     field: Optional[str] = None,
-    tail: conint(gt=0, lt=35_001) = 1,
+    tail: conint(gt=0, lt=100_001) = 1,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
 ) -> List[LogEntity]:
