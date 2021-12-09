@@ -324,7 +324,7 @@
                 "timestamp": "2021-03-10T12:15:57.393693",
                 "symbol": "BTC",
                 "name": "et_bn_sub1",
-                "transfer_type": "MAIN_C2C",
+                "transfer_type": "MAIN_FUNDING",
                 "is_sub_account_transfer": false,
                 "amount": 54954.05,
                 "amount_usd": 54954.05
