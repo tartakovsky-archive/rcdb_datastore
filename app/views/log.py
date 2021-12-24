@@ -120,6 +120,11 @@ TYPE_MODEL_MAP = {
         'model': models.Orderbook,
         'schema': schemas.Orderbook,
         'filter_columns': ['channel']
+    },
+    DataType.kalman_log: {
+        'model': models.KalmanLog,
+        'schema': schemas.KalmanLog,
+        'filter_columns': ['channel']
     }
 }
 LogEntity = Union[
@@ -129,6 +134,7 @@ LogEntity = Union[
     schemas.BotPerformanceLogEntry,
     schemas.BSwapQuote,
     schemas.KalmanLogEntry,
+    schemas.KalmanLog,
     schemas.MarketData,
     schemas.Orderbook,
     schemas.PriceIndex,

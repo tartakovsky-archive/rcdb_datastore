@@ -6,6 +6,7 @@ from .bot_perfomance_log_entry import BotPerformanceLogEntry
 from .bswap_quote import BSwapQuote
 from .forex_price import ForexPrice
 from .kalman_log_entry import KalmanLogEntry
+from .kalman_log import KalmanLog
 from .market_data import MarketData, symbol_type
 from .orderbook import Orderbook
 from .price_index import PriceIndex

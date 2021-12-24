@@ -6,6 +6,7 @@ from .bid_ask import BidAsk
 from .bot_performance_log_entry import BotPerformanceLogEntry
 from .bswap_quote import BSwapQuote
 from .kalman_log_entry import KalmanLogEntry
+from .kalman_log import KalmanLog
 from .market_data import MarketData
 from .orderbook import Orderbook
 from .price_index import PriceIndex
@@ -20,6 +21,7 @@ MODELS = [
     BidAsk,
     BotPerformanceLogEntry,
     BSwapQuote,
+    KalmanLog,
     KalmanLogEntry,
     MarketData,
     Orderbook,
