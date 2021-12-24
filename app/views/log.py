@@ -115,6 +115,11 @@ TYPE_MODEL_MAP = {
         'model': models.BSwapQuote,
         'schema': schemas.BSwapQuote,
         'filter_columns': ['symbol']
+    },
+    DataType.orderbook: {
+        'model': models.Orderbook,
+        'schema': schemas.Orderbook,
+        'filter_columns': ['channel']
     }
 }
 LogEntity = Union[
@@ -125,9 +130,10 @@ LogEntity = Union[
     schemas.BSwapQuote,
     schemas.KalmanLogEntry,
     schemas.MarketData,
+    schemas.Orderbook,
     schemas.PriceIndex,
     schemas.Rebate,
-    schemas.Transfer
+    schemas.Transfer,
 ]
 
 
@@ -175,6 +181,7 @@ def latest(
     symbol: Optional[schemas.symbol_type] = None,
     instrument: Optional[enums.Instrument] = None,
     account_type: Optional[AccountType] = None,
+    channel: Optional[str] = None,
     transfer_type: Optional[List[TransferType]] = Query(None),
     name: Optional[str] = None,
     bot_id: Optional[int] = None,

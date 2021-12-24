@@ -7,6 +7,7 @@ from .bot_performance_log_entry import BotPerformanceLogEntry
 from .bswap_quote import BSwapQuote
 from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData
+from .orderbook import Orderbook
 from .price_index import PriceIndex
 from .rebate import Rebate
 from .transfer import Transfer
@@ -21,6 +22,7 @@ MODELS = [
     BSwapQuote,
     KalmanLogEntry,
     MarketData,
+    Orderbook,
     PriceIndex,
     Rebate,
     Transfer,

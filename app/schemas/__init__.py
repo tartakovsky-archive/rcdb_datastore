@@ -7,6 +7,7 @@ from .bswap_quote import BSwapQuote
 from .forex_price import ForexPrice
 from .kalman_log_entry import KalmanLogEntry
 from .market_data import MarketData, symbol_type
+from .orderbook import Orderbook
 from .price_index import PriceIndex
 from .rebate import Rebate
 from .reports import Report, RebateReportParameters, PairsVolumeReportParameters, ReportParameters
