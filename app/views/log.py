@@ -125,6 +125,11 @@ TYPE_MODEL_MAP = {
         'model': models.KalmanLog,
         'schema': schemas.KalmanLog,
         'filter_columns': ['channel']
+    },
+    DataType.trades_log: {
+        'model': models.TradeLog,
+        'schema': schemas.TradeLog,
+        'filter_columns': ['channel']
     }
 }
 LogEntity = Union[
@@ -140,6 +145,7 @@ LogEntity = Union[
     schemas.PriceIndex,
     schemas.Rebate,
     schemas.Transfer,
+    schemas.TradeLog
 ]
 
 

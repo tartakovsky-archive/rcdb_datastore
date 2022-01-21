@@ -15,3 +15,4 @@ from .reports import Report, RebateReportParameters, PairsVolumeReportParameters
 from .responses import OkResponse, CredentialData
 from .transfer import Transfer
 from .user import User, UserDB
+from .trade_log import TradeLog

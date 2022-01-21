@@ -12,6 +12,7 @@ from .orderbook import Orderbook
 from .price_index import PriceIndex
 from .rebate import Rebate
 from .transfer import Transfer
+from .trade_log import TradeLog
 from .user import User
 
 
@@ -27,6 +28,7 @@ MODELS = [
     Orderbook,
     PriceIndex,
     Rebate,
+    TradeLog,
     Transfer,
     User
 ]
