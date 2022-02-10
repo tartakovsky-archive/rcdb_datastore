@@ -130,6 +130,11 @@ TYPE_MODEL_MAP = {
         'model': models.TradeLog,
         'schema': schemas.TradeLog,
         'filter_columns': ['channel']
+    },
+    DataType.tickers: {
+        'model': models.Ticker,
+        'schema': schemas.Ticker,
+        'filter_columns': ['channel']
     }
 }
 LogEntity = Union[
@@ -144,6 +149,7 @@ LogEntity = Union[
     schemas.Orderbook,
     schemas.PriceIndex,
     schemas.Rebate,
+    schemas.Ticker,
     schemas.Transfer,
     schemas.TradeLog
 ]

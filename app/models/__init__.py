@@ -11,6 +11,7 @@ from .market_data import MarketData
 from .orderbook import Orderbook
 from .price_index import PriceIndex
 from .rebate import Rebate
+from .ticker import Ticker
 from .transfer import Transfer
 from .trade_log import TradeLog
 from .user import User
@@ -28,6 +29,7 @@ MODELS = [
     Orderbook,
     PriceIndex,
     Rebate,
+    Ticker,
     TradeLog,
     Transfer,
     User
