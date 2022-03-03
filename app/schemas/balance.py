@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, condecimal, constr as standard_constr
 from rcdb_commons.lib.schemas.exchange import AccountType
@@ -20,8 +21,8 @@ class Balance(BaseModel):
     borrowed_usd: decimal_type
     interest: decimal_type
     interest_usd: decimal_type
-    free: decimal_type
-    free_usd: decimal_type
+    free: Optional[decimal_type]
+    free_usd: Optional[decimal_type]
 
     class Config(CustomJSONEncoderMixin):
         use_enum_values = True
