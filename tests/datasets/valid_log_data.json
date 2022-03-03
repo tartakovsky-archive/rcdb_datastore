@@ -280,7 +280,9 @@
                 "borrowed": 54953.05,
                 "borrowed_usd": 54953.05,
                 "interest": 54953.05,
-                "interest_usd": 54963.05
+                "interest_usd": 54963.05,
+                "free": 54953.05,
+                "free_usd": 54953.05
             },
             {
                 "timestamp": "2021-03-10T12:15:57.393693",
@@ -292,7 +294,9 @@
                 "borrowed": 54953.05,
                 "borrowed_usd": 54953.05,
                 "interest": 54953.05,
-                "interest_usd": 54963.05
+                "interest_usd": 54963.05,
+                "free": 154953.05,
+                "free_usd": 54953.05
             },
             {
                 "timestamp": "2021-03-10T12:15:56.393693",
@@ -304,7 +308,9 @@
                 "borrowed": 54953.05,
                 "borrowed_usd": 54953.05,
                 "interest": 54953.05,
-                "interest_usd": 54963.05
+                "interest_usd": 54963.05,
+                "free": 54953.05,
+                "free_usd": 54953.05
             }
         ]
     ],

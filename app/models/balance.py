@@ -28,6 +28,8 @@ class Balance(Model):
     borrowed_usd = Column(Numeric(27, 18, asdecimal=False), nullable=False)
     interest = Column(Numeric(27, 18, asdecimal=False), nullable=False)
     interest_usd = Column(Numeric(27, 18, asdecimal=False), nullable=False)
+    free = Column(Numeric(27, 18, asdecimal=False), nullable=True)
+    free_usd = Column(Numeric(27, 18, asdecimal=False), nullable=True)
 
     @validates('account_type')
     def validate_account_type(self, key, value) -> str:

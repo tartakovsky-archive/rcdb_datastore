@@ -20,6 +20,8 @@ class Balance(BaseModel):
     borrowed_usd: decimal_type
     interest: decimal_type
     interest_usd: decimal_type
+    free: decimal_type
+    free_usd: decimal_type
 
     class Config(CustomJSONEncoderMixin):
         use_enum_values = True
@@ -34,6 +36,8 @@ class Balance(BaseModel):
                 'borrowed': 54953.05,
                 'borrowed_usd': 54953.05,
                 'interest': 54953.05,
-                'interest_usd': 54963.05
+                'interest_usd': 54963.05,
+                'free': 54953.05,
+                'free_usd': 54963.05
             }
         }
