@@ -15,6 +15,7 @@ from .ticker import Ticker
 from .transfer import Transfer
 from .trade_log import TradeLog
 from .user import User
+from .unclaimed_bnb import UnclaimedBNB
 
 
 MODELS = [
@@ -32,5 +33,6 @@ MODELS = [
     Ticker,
     TradeLog,
     Transfer,
-    User
+    User,
+    UnclaimedBNB
 ]

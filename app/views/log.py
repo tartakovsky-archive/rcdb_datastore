@@ -135,6 +135,11 @@ TYPE_MODEL_MAP = {
         'model': models.Ticker,
         'schema': schemas.Ticker,
         'filter_columns': ['channel']
+    },
+    DataType.unclaimed_bnb: {
+        'model': models.UnclaimedBNB,
+        'schema': schemas.UnclaimedBNB,
+        'filter_columns': ['name']
     }
 }
 LogEntity = Union[
@@ -151,7 +156,8 @@ LogEntity = Union[
     schemas.Rebate,
     schemas.Ticker,
     schemas.Transfer,
-    schemas.TradeLog
+    schemas.TradeLog,
+    schemas.UnclaimedBNB
 ]
 
 
