@@ -178,7 +178,7 @@ async def log(
     schema_class = TYPE_MODEL_MAP[type]['schema']
     model_class = TYPE_MODEL_MAP[type]['model']
     try:
-        session.bulk_save_objects([model_class(**schema_class(**item).dict()) for item in items])
+        session.bulk_insert_mappings(model_class, [schema_class(**item).dict() for item in items])
     except pydantic.error_wrappers.ValidationError as ex:
         return await request_validation_exception_handler(request, ex)
     session.commit()
@@ -217,7 +217,7 @@ def latest(
     tail: conint(gt=0, lt=100_001) = 1,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> List[LogEntity]:
+) -> List[dict]:
     """
     Returns the latest log data by the specified parameters
     """
@@ -249,7 +249,7 @@ def latest(
         )
 
     return [
-        TYPE_MODEL_MAP[type]['schema'](**instance.to_dict(exclude=['id']))
+        instance.to_dict(exclude=['id'])
         for instance in instances
     ]
 
@@ -269,7 +269,7 @@ def latest_value(
     field: Optional[str] = None,
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> Union[LogEntity, float, str, datetime.datetime, None]:
+) -> Union[LogEntity, float, str, datetime.datetime, None, dict]:
     """
     Same as /latest/, but can return a specified field
     """
@@ -296,7 +296,7 @@ def latest_value(
 
     response_data = response_data[0]
     if field:
-        return getattr(response_data, field)
+        return response_data[field]
     return response_data
 
 
