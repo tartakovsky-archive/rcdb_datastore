@@ -4,7 +4,10 @@ import operator
 from typing import Union, List, Optional, Callable
 
 import aioredis
-from fastapi import HTTPException, APIRouter, status, Depends, Query
+import pydantic
+from fastapi import HTTPException, APIRouter, status, Depends, Query, Request
+from starlette.responses import JSONResponse
+from fastapi.exception_handlers import request_validation_exception_handler
 from pydantic import conint, BaseModel, Field, validator
 from rcdb_commons.lib.stores import DataType
 from rcdb_commons.lib.schemas.exchange import AccountType, TransferType
@@ -162,24 +165,22 @@ LogEntity = Union[
 
 
 @api.post('/log/', response_model=schemas.OkResponse)
-def log(
+async def log(
+    request: Request,
     type: DataType,
-    items: List[LogEntity],
+    items: List[dict],
     session: SessionType = Depends(get_session),
     user: schemas.UserDB = Depends(auth.get_current_active_user)
-) -> schemas.OkResponse:
+) -> Union[schemas.OkResponse, JSONResponse]:
     """
     Collects OHLCV data, binance price index, bot performance and kalman logs
     """
     schema_class = TYPE_MODEL_MAP[type]['schema']
-    if any(not isinstance(item, schema_class) for item in items):
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"all items should be of '{type.value}' type"
-        )
-
     model_class = TYPE_MODEL_MAP[type]['model']
-    session.bulk_save_objects(model_class(**item.dict()) for item in items)
+    try:
+        session.bulk_save_objects([model_class(**schema_class(**item).dict()) for item in items])
+    except pydantic.error_wrappers.ValidationError as ex:
+        return await request_validation_exception_handler(request, ex)
     session.commit()
     return schemas.OkResponse()
 
