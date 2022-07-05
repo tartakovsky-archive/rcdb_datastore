@@ -7,6 +7,7 @@ WITH self_volumes AS (
     FROM account_trades
     WHERE timestamp >= :start_datetime
       AND timestamp <= :end_datetime
+      AND (:symbol is NULL OR symbol = :symbol)
     GROUP BY ts, symbol
 ),
 market_volumes AS (
@@ -21,6 +22,7 @@ market_volumes AS (
       AND exchange = 'BINANCE'
       AND instrument = 'SPOT'
       AND (:unfilled OR symbol IN (SELECT symbol FROM self_volumes GROUP BY symbol))
+      AND (:symbol is NULL OR symbol = :symbol)
     GROUP BY ts, symbol
 ),
 merged_volumes as (
