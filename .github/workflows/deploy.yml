@@ -39,7 +39,7 @@ jobs:
         printf $(curl --location --request GET '${{ secrets.CREDENTIAL_STORE_ITEM_URL }}' --header 'Authorization: Bearer ${{ secrets.CREDENTIALSTORE_TOKEN }}' | jq .fields[0].value | tr -d \") > .env
 
     - name: Copy files via SCP
-      uses: appleboy/scp-action@master
+      uses: appleboy/scp-action@v0.1.4
       env:
         KEY: ${{ secrets.SSH_KEY }}
         HOST: ${{ secrets.SSH_HOST }}
@@ -49,7 +49,7 @@ jobs:
         target: "/home/ubuntu/datastore"
 
     - name: Up app
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v0.1.9
       env:
         KEY: ${{ secrets.SSH_KEY }}
         HOST: ${{ secrets.SSH_HOST }}
