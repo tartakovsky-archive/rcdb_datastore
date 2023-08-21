@@ -130,7 +130,7 @@ Set secrets:
 `SSH_USER` - ec2 instance user  
 `SSH_HOST` - ec2 instance public ip    
 `SSH_KEY` - ssh pem key    
-`CREDENTIALSTORE_TOKEN` - token to 1p connect server
-`CREDENTIAL_STORE_ITEM_URL` - url to env document at 1p connect server, e.g. `http://<1p-connect-host:port>/v1/vaults/<vault-id>/items/<item-id>`
-`GH_TOKEN` - token of the ci user. to clone submodules
+`CREDENTIALSTORE_TOKEN` - token to 1p connect server  
+`CREDENTIAL_STORE_ITEM_URL` - url to env document at 1p connect server, e.g. `http://<1p-connect-host:port>/v1/vaults/<vault-id>/items/<item-id>`  
+`GH_TOKEN` - token of the ci user. to clone submodules  
 Invoke the deployment pipeline on [the pipeline page](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml) by button `Run workflow`
