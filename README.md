@@ -1,6 +1,6 @@
 # rcdb_datastore
 
-> FastAPI + TimescaleDB time-series API that powered the RCDB multi-exchange automated trading platform.
+> FastAPI and TimescaleDB time-series API for the RCDB trading platform.
 
 [![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.63-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -10,9 +10,9 @@
 [![Docker](https://img.shields.io/badge/Docker-ECR-2496ED?logo=docker&logoColor=white)](https://aws.amazon.com/ecr/)
 [![Archived](https://img.shields.io/badge/status-archived-lightgrey)](#lineage)
 
-**Archived.** Cloned from `hcmc-project/rcdb_datastore` for posterity. Part of the **RCDB** automated trading platform, later merged into [3Jane Technologies](https://github.com/3jane). No longer maintained.
+**Archived.** Cloned from `hcmc-project/rcdb_datastore`. Part of the **RCDB** trading stack. Later folded into [3Jane](https://github.com/3jane). No longer maintained.
 
-> Swagger docs are served at the root route: `http://localhost/` (HTTP Basic auth required).
+> Swagger docs at the root route: `http://localhost/` (HTTP Basic auth).
 
 ---
 
@@ -31,11 +31,15 @@
 
 ## What this was
 
-`rcdb_datastore` was the central time-series store for the RCDB automated trading platform. It ingested and served heterogeneous market and trading data from multiple exchanges through a single, uniform HTTP API: OHLCV candles, Kalman-filtered signal streams, bot performance telemetry, price indices, bid/ask snapshots, orderbook ticks, aggregated trades, account balances, transfers, and exchange rebates.
+This was the central time-series store for the RCDB trading stack. It took in and served many kinds of market and trade data through one HTTP API.
 
-Every domain has its own SQLAlchemy model with an indexed `timestamp` column and a small, opinionated set of filterable fields (exchange, symbol, account type, channel, bot id, transfer type). A single declarative map in `app/views/log.py` - `TYPE_MODEL_MAP` - binds each `DataType` to its model, Pydantic schema, and filter columns, so the `/log/` (write) and `/latest/` (read) endpoints work polymorphically across every data type without per-domain controller code.
+Domains covered: OHLCV candles, Kalman signal streams, bot telemetry, price indices, bid/ask snaps, orderbook ticks, summed trades, account balances, transfers, and exchange rebates.
 
-The store is built on **TimescaleDB** (Postgres with native time-series hypertables) and uses raw SQL via SQLAlchemy `text()` for analytical reports - including a periodic-rebate reconciliation report that joins expected versus received maker rebates per account, currency, and timeframe using `time_bucket`. Auth supports both OAuth2 bearer tokens (with a query-param fallback) and HTTP Basic (for the Swagger UI). Deployment is Docker Compose with images hosted on AWS ECR, CloudWatch for log aggregation, and Sentry for error tracking.
+Each domain is a SQLAlchemy model with an indexed `timestamp` and a small set of filter fields. A single map in `app/views/log.py` (`TYPE_MODEL_MAP`) ties each `DataType` to its model, Pydantic schema, and filter columns. So `/log/` (write) and `/latest/` (read) work for every domain. No per-domain code path needed.
+
+The store runs on **TimescaleDB** (Postgres with time-series hypertables). It uses raw SQL via SQLAlchemy `text()` for reports. One report joins paid and owed maker rebates per account, coin, and time slot via `time_bucket`.
+
+Auth takes OAuth2 bearer tokens or HTTP Basic. The stack ships as Docker Compose. Images live on AWS ECR. Logs go to CloudWatch and errors go to Sentry.
 
 ## Tech stack
 
