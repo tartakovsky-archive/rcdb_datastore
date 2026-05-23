@@ -1,5 +1,18 @@
-# datastore
-[![Deploy](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml/badge.svg)](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml)
+# rcdb_datastore
+
+Cloned and published from hcmc-project/rcdb_datastore for archival purposes.
+
+---
+
+> Swagger docs available at the root route, e.g. http://localhost/
+
+## Archival Notes
+
+rcdb_datastore is a FastAPI-based REST API and PostgreSQL persistence layer that served as the central time-series database for the RCDB automated trading platform. It ingests and serves heterogeneous market and trading data types — OHLCV candles at arbitrary timeframes, Kalman-filtered signal streams, bot performance metrics (PnL, position sizes, borrow utilization), price indices for multi-asset aggregation, orderbook snapshots, tick-level bid/ask spreads, trade logs, account balance snapshots, exchange transfers, and rebate records. Each data type has its own SQLAlchemy model with indexed timestamp columns, enabling efficient range queries and aggregation through a unified filter API.
+
+The API layer uses FastAPI's dependency injection for session management and request validation, with all schemas defined in Pydantic. A report generation service produces aggregated summaries (periodic performance, drawdown analysis, volume breakdowns) queried by downstream dashboards and alerting systems. The deployment architecture uses Docker Compose with AWS ECR-based image hosting, CloudWatch for log aggregation, and alembic for schema migrations. A client-side SDK lives in the rcdb_commons library, exposing typed data submission and retrieval methods used by the execution engine and research notebooks alike. This code was developed as part of the RCDB team's work on a multi-exchange, multi-strategy automated trading platform, later merged into 3Jane Technologies (https://github.com/3jane).
+
+---
 
 ## Example `.env`
 ```
@@ -21,8 +34,6 @@ AWS_DEFAULT_REGION=ap-northeast-1
 > docker-compose up -d
 > docker-compose run app bash -c "alembic upgrade heads"  # optional
 ```
-
-Swagger docs are available at the root route, e.g. [http://localhost/](http://localhost/)
 
 ## Tests
 ```shell
@@ -82,55 +93,15 @@ Swagger docs are available at the root route, e.g. [http://localhost/](http://lo
                 "ecr:DescribeRepositories",
                 "ecr:GetRepositoryPolicy",
                 "ecr:ListImages",
-                "ecr:DeleteRepository",
-                "ecr:BatchDeleteImage",
-                "ecr:SetRepositoryPolicy",
-                "ecr:DeleteRepositoryPolicy",
-                "ecr:GetAuthorizationToken",
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:BatchGetImage"
+                "ecr:BatchCheckLayerAvailability"
             ]
         }
     ]
 }
 ```
 
-## Prepare instance
+### Creating docker-compose.awslogs.yml
 
-1. Clone the repository:
 ```shell
-> mkdir datastore
-> cd datastore
-> git clone https://github.com/hcmc-project/rcdb_datastore .
+$ docker-compose -f docker-compose.yml -f docker-compose.awslogs.yml config > docker-compose.yml
 ```
-2. Install aws cli and docker-compose:
-```shell
-> pip3 install awscli docker-compose
-```
-3. Configure aws via cli. Set credentials of the ci/cd ecr user:
-```shell
-> aws configure
-```
-4. Install [docker](https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-18-04-ru).
-5. Start db container:
-```shell
-> docker-compose -f docker-compose.yml -f docker-compose.awslogs.yml up -d db
-```
-6. Make `docker-compose` accessible from root user:
-```shell
-> sudo ln -sf /home/ubuntu/.local/bin/docker-compose /usr/bin/docker-compose
-```
-
-##  Prepare Github Actions
-Set secrets:  
-`AWS_DEFAULT_REGION` - aws region  
-`AWS_ACCESS_KEY_ID` - aws credential with the policy to deploy to ECR  
-`AWS_SECRET_ACCESS_KEY` - aws credential  
-`DOCKER_REGISTRY` - url of the ECR private registry  
-`SSH_USER` - ec2 instance user  
-`SSH_HOST` - ec2 instance public ip    
-`SSH_KEY` - ssh pem key    
-`CREDENTIALSTORE_TOKEN` - token to 1p connect server  
-`CREDENTIAL_STORE_ITEM_URL` - url to env document at 1p connect server, e.g. `http://<1p-connect-host:port>/v1/vaults/<vault-id>/items/<item-id>`  
-`GH_TOKEN` - token of the ci user. to clone submodules  
-Invoke the deployment pipeline on [the pipeline page](https://github.com/hcmc-project/rcdb_datastore/actions/workflows/deploy.yml) by button `Run workflow`
